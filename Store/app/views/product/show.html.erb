@@ -1,0 +1,26 @@
+<div style="width:50%; margin:0 auto;top: 50%; transform: translateY(70%);" class="thumbnail">
+  <div class="caption">
+    <h4 class="group inner list-group-item-heading"><%= @product.product_name %>
+      <span style="text-align:right;">
+        <a class='far fa-thumbs-up' href="" style='font-size:24px'></a></span></h4>
+    <h4 class="group inner list-group-item-text">SKU:
+      <%= @product.sku %></h4>
+
+    <p class="group inner list-group-item-text">Category:
+      <%= @product.category.name %></p>
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        <p class="lead"><%= number_to_currency @product.price %></p>
+      </div>
+      <label>Quantity</label>
+      <select class="custom-select-lg mb-3">
+        <%  1.upto(@product.quantity) do |quan| %>
+        <option><%= quan%></option>
+        <% end %>
+      </select>
+      <div class="col-xs-12 col-md-6">
+        <a href="show?id_product=<%= @product.id %>" class="btn btn-success btn-block">Add to cart</a>
+      </div>
+    </div>
+  </div>
+</div>
