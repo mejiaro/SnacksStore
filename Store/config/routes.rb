@@ -6,5 +6,7 @@ Rails.application.routes.draw do
   end
   resources :product
   resources :car_shops
+  resources :orders
+  resources :order_details
   match '/car_shops', to: 'car_shops#create', via: 'post', as: :create_car
 end
