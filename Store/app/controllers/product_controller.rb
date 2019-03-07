@@ -5,6 +5,7 @@ class ProductController < ApplicationController
   end
 
   def show
+    @car_shop = CarShop.new
     @product = Product.find(params[:id_product])
   end
 

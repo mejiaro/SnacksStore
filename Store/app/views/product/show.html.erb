@@ -1,3 +1,4 @@
+<%= form_for @car_shop, :url => create_car_path(@car_shop), :method => :post do |f| %>
 <div style="width:50%; margin:0 auto;top: 50%; transform: translateY(70%);" class="thumbnail">
   <div class="caption">
     <h4 class="group inner list-group-item-heading"><%= @product.product_name %>
@@ -13,14 +14,17 @@
         <p class="lead"><%= number_to_currency @product.price %></p>
       </div>
       <label>Quantity</label>
-      <select class="custom-select-lg mb-3">
-        <%  1.upto(@product.quantity) do |quan| %>
-        <option><%= quan%></option>
-        <% end %>
-      </select>
+
+        <%= f.number_field :quantity, min:1, value: 1, max: @product.quantity%>
       <div class="col-xs-12 col-md-6">
-        <a href="show?id_product=<%= @product.id %>" class="btn btn-success btn-block">Add to cart</a>
+        <div class="actions">
+          <%= f.hidden_field :user, value: current_user.id %>
+          <%= f.hidden_field :product, value: @product.id %>
+          <%= f.hidden_field :price, value: @product.price %>
+          <%= submit_tag("Add to Car", class: "btn btn-success btn-block") %>
+        </div>
       </div>
     </div>
   </div>
 </div>
+<% end %>

@@ -5,4 +5,6 @@ Rails.application.routes.draw do
     get 'category'
   end
   resources :product
+  resources :car_shops
+  match '/car_shops', to: 'car_shops#create', via: 'post', as: :create_car
 end

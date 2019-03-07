@@ -1,3 +1,9 @@
+<% if flash[:alert] %>
+  <div class="alert alert-<%= flash[:alert_type]%>" role="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <%=flash[:alert]%>
+  </div>
+<% end %>
 <br>
 <br>
 <br>
@@ -16,11 +22,11 @@
 <br>
 <br>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 shop-tab-menu">
-  <div class="list-group">
-    <%  @category.each do |cat| %>
+<div class="list-group">
+  <%  @category.each do |cat| %>
     <%= link_to raw("<button class='list-group-item' type='button'><h4><i class='fa fa-chevron-right' aria-hidden='true'></i>#{cat.name}</h4></button>'"), product_category_path(:category => "#{cat.id}") %>
-    <% end %>
-  </div>
+  <% end %>
+</div>
 </div>
 <div id="products" class="row list-group">
 <%  @product.each do |prod| %>
