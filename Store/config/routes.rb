@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   resources :orders
   resources :order_details
   match '/car_shops', to: 'car_shops#create', via: 'post', as: :create_car
+  match '/orders/create', to: 'orders#create', via: 'post', as: :create_order
 end

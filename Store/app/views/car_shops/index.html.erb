@@ -2,50 +2,64 @@
 <br>
 <div class="container">
 	<table id="cart" class="table table-hover table-condensed">
-    				<thead>
-						<tr>
-							<th style="width:50%">Product</th>
-							<th style="width:10%">Price</th>
-							<th style="width:8%">Quantity</th>
-							<th style="width:22%" class="text-center">Subtotal</th>
-							<th style="width:10%"></th>
-						</tr>
-					</thead>
-					<tbody>
-						<%  @product.each do |prod| %>
-						<tr>
-							<td data-th="Product">
-								<div class="row">
-									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-									<div class="col-sm-10">
-										<h4 class="nomargin"><%= prod.product.sku%></h4>
-										<p><%= prod.product.product_name%></p>
-										<p><%= prod.product.category.name%></p>
-									</div>
-								</div>
-							</td>
-							<td data-th="Price"><%= number_to_currency prod.price%></td>
-							<td data-th="Quantity" style="text-align: center;">
-								<p><%= prod.quantity %></p>
-							</td>
-							<td data-th="Subtotal" class="text-center"><%=number_to_currency (prod.price.to_f * prod.quantity)%></td>
-							<td class="actions" data-th="">
-								<button class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-								<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-							</td>
-						</tr>
-						<% end %>
-					</tbody>
-					<tfoot>
-						<tr class="visible-xs">
-							<td class="text-center"><strong>Total <%= @total%></strong></td>
-						</tr>
-						<tr>
-							<td><a href="./product" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-							<td colspan="2" class="hidden-xs"></td>
-							<td class="hidden-xs text-center"><strong>Total <%= @total%></strong></td>
-							<td><a href="./product" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
-						</tr>
-					</tfoot>
-				</table>
+		<thead>
+			<tr>
+				<th style="width:50%">Product</th>
+				<th style="width:10%">Price</th>
+				<th style="width:8%">Quantity</th>
+				<th style="width:22%" class="text-center">Subtotal</th>
+				<th style="width:10%"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<%  @product.each do |prod| %>
+				<tr>
+					<td data-th="Product">
+						<div class="row">
+							<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+							<div class="col-sm-10">
+								<h4 class="nomargin"><%= prod.product.sku%></h4>
+								<p><%= prod.product.product_name%></p>
+								<p><%= prod.product.category.name%></p>
+							</div>
+						</div>
+					</td>
+					<td data-th="Price"><%= number_to_currency prod.price%></td>
+					<td data-th="Quantity" style="text-align: center;">
+						<p><%= prod.quantity %></p>
+					</td>
+					<td data-th="Subtotal" class="text-center"><%=number_to_currency (prod.price.to_f * prod.quantity)%></td>
+					<td class="actions" data-th="">
+						<button class="btn btn-info btn-sm">
+							<i class="fa fa-refresh"></i>
+						</button>
+						<button class="btn btn-danger btn-sm">
+							<i class="fa fa-trash-o"></i>
+						</button>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+		<tfoot>
+			<tr class="visible-xs">
+				<td class="text-center">
+					<strong>Total
+						<%= @total%></strong>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="./product" class="btn btn-warning">
+						<i class="fa fa-angle-left"></i>
+						Continue Shopping</a>
+				</td>
+				<td colspan="2" class="hidden-xs"></td>
+				<td class="hidden-xs text-center">
+					<strong>Total
+						<%= @total%></strong>
+				</td>
+				<td><%= link_to '<button class="btn btn-success btn-block" type="button">Checkout</button>'.html_safe, create_order_path, method: :post%> </td>
+			</tr>
+		</tfoot>
+	</table>
 </div>
