@@ -4,7 +4,7 @@ class CreateCarShops < ActiveRecord::Migration[5.2]
       t.references :user, foreign_key: true
       t.references :product, foreign_key: true
       t.integer :quantity
-      t.float :price
+      t.decimal :price
       t.string :status
 
       t.timestamps

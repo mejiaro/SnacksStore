@@ -4,10 +4,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    time = Time.now
     usr = User.find(current_user.id)
     @product = CarShop.all.where(user: usr)
-    @order = Order.new(user: usr, date: time, status: 'P')
+    @order = Order.new(user: usr, status: 'N')
     @order.save
     @last = Order.last
     @product.each do |val|
@@ -18,6 +17,8 @@ class OrdersController < ApplicationController
                                 status: 'P')
       @detail.save
     end
+    @last.status = 'P'
+    @last
     CarShop.where(user: usr).destroy_all
     redirect_to product_index_path
   end

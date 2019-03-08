@@ -9,6 +9,8 @@
 <br>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by name</button>'.html_safe, product_index_path(:sort => "product_name ASC") %>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-down" type="button"> Sort by name</button>'.html_safe, product_index_path(:sort => "product_name DESC") %>
+<%= link_to '<button class="btn btn-primary fas fa-chevron-down" type="button"> Sort by likes</button>'.html_safe, product_index_path(:likes => "likes_count DESC") %>
+<%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by likes</button>'.html_safe, product_index_path(:sort => "likes_count ASC") %>
 <div class="col-xs-12 col-md-8"></div>
 <div class="col-xs-12 col-md-3">
   <%= form_tag(product_index_path, method: :get) do %>
@@ -17,14 +19,13 @@
 <div class="actions">
   <%= submit_tag 'Search', name: nil %>
 </div>
-
 <% end %>
 <br>
 <br>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 shop-tab-menu">
 <div class="list-group">
   <%  @category.each do |cat| %>
-    <%= link_to raw("<button class='list-group-item' type='button'><h4><i class='fa fa-chevron-right' aria-hidden='true'></i>#{cat.name}</h4></button>'"), product_category_path(:category => "#{cat.id}") %>
+    <%= link_to raw("<button class='list-group-item' type='button'><h4><i class='fa fa-chevron-right' aria-hidden='true'></i>#{cat.name}</h4></button>"), product_category_path(:category => "#{cat.id}") %>
   <% end %>
 </div>
 </div>
@@ -35,10 +36,12 @@
       <div class="caption">
         <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
           <span style="text-align:right;">
-            <% if LikeProduct.where(user: current_user, product: prod).empty?%>
-              <%= link_to '<button type="button" class="far fa-thumbs-up"></button>'.html_safe, like_create_path(:product => prod), method: :post %>
-            <% else %>
-              <%= link_to '<button type="button" class="far fa-thumbs-down"></button>'.html_safe, like_destroy_path(:product => prod), method: :post %>
+            <% if user_signed_in? %>
+              <% if LikeProduct.where(user: current_user, product: prod).empty?%>
+                <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_create_path(:product => prod), method: :post %>
+              <% else %>
+                <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_destroy_path(:product => prod), method: :post %>
+              <% end %>
             <% end %>
           </span>
         </h4>
@@ -49,10 +52,11 @@
             <p class="lead"><%= number_to_currency prod.price %></p>
           </div>
           <div class="col-xs-12 col-md-6">
-            <p class="lead"><%= prod.like_products.size %> likes</p>
+            <p class="lead"><%= prod.like_products.size %>
+              likes</p>
           </div>
           <div class="col-xs-12 col-md-6">
-            <a href="product/show?id_product=<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
+            <a href="show?id_product=<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
           </div>
         </div>
       </div>
