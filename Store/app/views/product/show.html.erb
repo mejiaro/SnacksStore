@@ -1,22 +1,28 @@
 <%= form_for @car_shop, :url => create_car_path(@car_shop), :method => :post do |f| %>
 <div style="width:50%; margin:0 auto;top: 50%; transform: translateY(70%);" class="thumbnail">
   <div class="caption">
-    <h4 class="group inner list-group-item-heading"><%= @product.product_name %>
-      <span style="text-align:right;">
-        <a class='far fa-thumbs-up' href="" style='font-size:24px'></a></span></h4>
+    <h2 class="font-weight-bold group inner list-group-item-heading"><%= @product.product_name %><a class='far fa-thumbs-up' href="" style='text-align: right;display:block;'></a></h2>
     <h4 class="group inner list-group-item-text">SKU:
       <%= @product.sku %></h4>
-
     <p class="group inner list-group-item-text">Category:
       <%= @product.category.name %></p>
     <div class="row">
       <div class="col-xs-12 col-md-6">
         <p class="lead"><%= number_to_currency @product.price %></p>
+          <p class="lead" style="text-align: right;"> <%=@product.quantity%> products left </p>
       </div>
-      <label>Quantity</label>
+      <%if @product.quantity > 0%>
+      <div class="col-xs-12 col-md-2">
 
-        <%= f.number_field :quantity, min:1, value: 1, max: @product.quantity%>
-      <div class="col-xs-12 col-md-6">
+      </div>
+      <div class="col-xs-12 col-md-3">
+      <label>Quantity</label>
+        <%= f.number_field :quantity, min:1, value: 1,class: "form-control", max: @product.quantity%>
+        </div>
+        <div class="col-xs-12 col-md-2">
+
+        </div>
+      <div class="col-xs-12 col-md-4">
         <div class="actions">
           <%= f.hidden_field :user, value: current_user.id %>
           <%= f.hidden_field :product, value: @product.id %>
@@ -24,6 +30,12 @@
           <%= submit_tag("Add to Car", class: "btn btn-success btn-block") %>
         </div>
       </div>
+      <%else%>
+      <div class="col-xs-12 col-md-6">
+
+        <p class="font-weight-bold h4" style="color:blue;text-align: right;">Out of Stock!</p>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

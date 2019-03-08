@@ -1,4 +1,10 @@
 <br>
+<% if flash[:alert] %>
+  <div class="alert alert-<%= flash[:alert_type]%>" role="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <%=flash[:alert]%>
+  </div>
+<% end %>
 <br>
 <div class="container">
 	<table id="cart" class="table table-hover table-condensed">
@@ -30,12 +36,8 @@
 					</td>
 					<td data-th="Subtotal" class="text-center"><%=number_to_currency (prod.price.to_f * prod.quantity)%></td>
 					<td class="actions" data-th="">
-						<button class="btn btn-info btn-sm">
-							<i class="fa fa-refresh"></i>
-						</button>
-						<button class="btn btn-danger btn-sm">
-							<i class="fa fa-trash-o"></i>
-						</button>
+						<td><%= link_to '<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>'.html_safe, destroy_car_path(:product => prod.product), method: :delete%>
+						<br/>
 					</td>
 				</tr>
 			<% end %>
@@ -56,9 +58,10 @@
 				<td colspan="2" class="hidden-xs"></td>
 				<td class="hidden-xs text-center">
 					<strong>Total
-						<%= @total%></strong>
+						<%= number_to_currency @total%></strong>
 				</td>
-				<td><%= link_to '<button class="btn btn-success btn-block" type="button">Checkout</button>'.html_safe, create_order_path, method: :post%> </td>
+				<td><%= link_to '<button class="btn btn-success btn-block" type="button">Checkout</button>'.html_safe, create_order_path, method: :post%>
+				</td>
 			</tr>
 		</tfoot>
 	</table>

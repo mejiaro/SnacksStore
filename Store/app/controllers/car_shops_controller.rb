@@ -10,6 +10,19 @@ class CarShopsController < ApplicationController
     @car_shop = CarShop.new
   end
 
+  def destroy
+    usr = User.find(current_user.id)
+    @car_delete = CarShop.find_by(user: usr, product: params[:product])
+    prd = Product.find(params[:product])
+    prd.quantity += @car_delete.quantity.to_i
+    if @car_delete.destroy
+      prd.save
+      redirect_to car_shops_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }
+    else
+      redirect_to car_shops_path, flash: { alert: 'Product was not deleted.', alert_type: 'success' }
+    end
+  end
+
   def create
     usr = User.find(params[:car_shop][:user])
     prd = Product.find(params[:car_shop][:product])
