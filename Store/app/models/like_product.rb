@@ -1,4 +1,4 @@
 class LikeProduct < ApplicationRecord
   belongs_to :user
-  belongs_to :product, counter_cache: true
+  belongs_to :product, counter_cache: :likes_count
 end

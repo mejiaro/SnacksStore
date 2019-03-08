@@ -1,3 +1,9 @@
+<% if flash[:alert] %>
+  <div class="alert alert-<%= flash[:alert_type]%>" role="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <%=flash[:alert]%>
+  </div>
+<% end %>
 <br>
 <br>
 <br>
@@ -9,18 +15,18 @@
   <%= text_field_tag :term, params[:term], class: "form-control" %>
 </div>
 <div class="actions">
-  <%= submit_tag 'Search', name: nil, class: "btn btn-primary" %>
+  <%= submit_tag 'Search', name: nil %>
 </div>
 
 <% end %>
 <br>
 <br>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 shop-tab-menu">
-  <div class="list-group">
-    <%  @category.each do |cat| %>
+<div class="list-group">
+  <%  @category.each do |cat| %>
     <%= link_to raw("<button class='list-group-item' type='button'><h4><i class='fa fa-chevron-right' aria-hidden='true'></i>#{cat.name}</h4></button>'"), product_category_path(:category => "#{cat.id}") %>
-    <% end %>
-  </div>
+  <% end %>
+</div>
 </div>
 <div id="products" class="row list-group">
 <%  @product.each do |prod| %>
@@ -29,7 +35,13 @@
       <div class="caption">
         <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
           <span style="text-align:right;">
-            <a class='far fa-thumbs-up' href="" style='font-size:24px'></a></span></h4>
+            <% if LikeProduct.where(user: current_user, product: prod).empty?%>
+              <%= link_to '<button type="button" class="far fa-thumbs-up"></button>'.html_safe, like_create_path(:product => prod), method: :post %>
+            <% else %>
+              <%= link_to '<button type="button" class="far fa-thumbs-down"></button>'.html_safe, like_destroy_path(:product => prod), method: :post %>
+            <% end %>
+          </span>
+        </h4>
         <p class="group inner list-group-item-text">Category:
           <%= prod.category.name %></p>
         <div class="row">
@@ -37,7 +49,10 @@
             <p class="lead"><%= number_to_currency prod.price %></p>
           </div>
           <div class="col-xs-12 col-md-6">
-            <a href="show?id_product=<%= prod.id %>" class="btn btn-success btn-block">Add to cart</a>
+            <p class="lead"><%= prod.like_products.size %> likes</p>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <a href="product/show?id_product=<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
           </div>
         </div>
       </div>

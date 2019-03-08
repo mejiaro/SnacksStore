@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
     time = Time.now
     usr = User.find(current_user.id)
     @product = CarShop.all.where(user: usr)
-    @order = Order.new(user: usr, date: time)
+    @order = Order.new(user: usr, date: time, status: 'P')
     @order.save
     @last = Order.last
     @product.each do |val|

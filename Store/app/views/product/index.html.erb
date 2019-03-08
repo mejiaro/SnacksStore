@@ -15,7 +15,7 @@
   <%= text_field_tag :term, params[:term], class: "form-control" %>
 </div>
 <div class="actions">
-  <%= submit_tag 'Search', name: nil, class: "btn btn-primary" %>
+  <%= submit_tag 'Search', name: nil %>
 </div>
 
 <% end %>
@@ -35,7 +35,15 @@
       <div class="caption">
         <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
           <span style="text-align:right;">
-            <a class='far fa-thumbs-up' href="" style='font-size:24px'></a></span></h4>
+            <% if user_signed_in? %>
+              <% if LikeProduct.where(user: current_user, product: prod).empty?%>
+                <%= link_to '<button type="button" ><a class="far fa-thumbs-up"></a></button>'.html_safe, like_create_path(:product => prod), method: :post %>
+              <% else %>
+                <%= link_to '<button type="button" class="far fa-thumbs-down"></button>'.html_safe, like_destroy_path(:product => prod), method: :post %>
+              <% end %>
+            <% end %>
+          </span>
+        </h4>
         <p class="group inner list-group-item-text">Category:
           <%= prod.category.name %></p>
         <div class="row">
@@ -43,7 +51,11 @@
             <p class="lead"><%= number_to_currency prod.price %></p>
           </div>
           <div class="col-xs-12 col-md-6">
-            <a href="product/show?id_product=<%= prod.id %>" class="btn btn-success btn-block">Buy</a>
+            <p class="lead"><%= prod.like_products.size %>
+              likes</p>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <a href="product/show?id_product=<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
           </div>
         </div>
       </div>
