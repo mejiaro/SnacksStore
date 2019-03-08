@@ -3,6 +3,7 @@ class Product < ApplicationRecord
   has_many :order_details
   has_many :car_shop
   has_many :orders, through: :order_details
+  has_many :like_products
   def self.search(term, page, sort)
     if term && !sort
       where('product_name LIKE ?', "%#{term}%").order('product_name ASC').paginate(page: page, per_page: 10)
