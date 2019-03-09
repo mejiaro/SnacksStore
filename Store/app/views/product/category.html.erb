@@ -10,7 +10,7 @@
 <%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by name</button>'.html_safe, product_index_path(:sort => "product_name ASC") %>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-down" type="button"> Sort by name</button>'.html_safe, product_index_path(:sort => "product_name DESC") %>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-down" type="button"> Sort by likes</button>'.html_safe, product_index_path(:likes => "likes_count DESC") %>
-<%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by likes</button>'.html_safe, product_index_path(:sort => "likes_count ASC") %>
+<%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by likes</button>'.html_safe, product_index_path(:likes => "likes_count ASC") %>
 <div class="col-xs-12 col-md-8"></div>
 <div class="col-xs-12 col-md-3">
   <%= form_tag(product_index_path, method: :get) do %>
