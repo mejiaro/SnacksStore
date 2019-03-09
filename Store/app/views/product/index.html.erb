@@ -24,13 +24,13 @@
 <br>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 shop-tab-menu">
 <div class="list-group">
-  <%  @category.each do |cat| %>
+  <%  category.each do |cat| %>
     <%= link_to raw("<button class='list-group-item' type='button'><h4><i class='fa fa-chevron-right' aria-hidden='true'></i>#{cat.name}</h4></button>"), product_category_path(:category => "#{cat.id}") %>
   <% end %>
 </div>
 </div>
 <div id="products" class="row list-group">
-<%  @product.each do |prod| %>
+<%  product.each do |prod| %>
   <div class="item  col-xs-4 col-lg-4">
     <div class="thumbnail">
       <div class="caption">
@@ -67,7 +67,7 @@
 </div>
 <div class="apple_pagination">
 <div class="page_info">
-<%= page_entries_info @product %>
+<%= page_entries_info product %>
 </div>
-<%= will_paginate @product, :container => false %>
+<%= will_paginate product, :container => false %>
 </div>

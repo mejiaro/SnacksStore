@@ -19,6 +19,6 @@ class OrdersController < ApplicationController
     end
     @last.status = 'P'
     @last.save
-    redirect_to product_index_path
+    redirect_to product_index_path and return
   end
 end

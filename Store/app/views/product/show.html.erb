@@ -1,30 +1,30 @@
 <%= form_for @car_shop, :url => car_shops_path(@car_shop), :method => :post do |f| %>
 <div style="width:50%; margin:0 auto;top: 50%; transform: translateY(70%);" class="thumbnail">
   <div class="caption">
-    <h2 class="font-weight-bold group inner list-group-item-heading"><%= @product.product_name %></h2>
+    <h2 class="font-weight-bold group inner list-group-item-heading"><%= product.product_name %></h2>
     <h4 class="group inner list-group-item-text">SKU:
-      <%= @product.sku %></h4>
+      <%= product.sku %></h4>
     <p class="group inner list-group-item-text">Category:
-      <%= @product.category.name %></p>
+      <%= product.category.name %></p>
     <div class="row">
       <div class="col-xs-12 col-md-6">
-        <p class="lead"><%= number_to_currency @product.price %></p>
-          <p class="lead" style="text-align: right;"> <%=@product.quantity%> products left </p>
+        <p class="lead"><%= number_to_currency product.price %></p>
+          <p class="lead" style="text-align: right;"> <%=product.quantity%> products left </p>
       </div>
-      <%if @product.quantity > 0%>
+      <%if product.quantity > 0%>
       <div class="col-xs-12 col-md-2">
       </div>
       <div class="col-xs-12 col-md-3">
       <label>Quantity</label>
-        <%= f.number_field :quantity, min:1, value: 1,class: "form-control", max: @product.quantity%>
+        <%= f.number_field :quantity, min:1, value: 1,class: "form-control", max: product.quantity%>
         </div>
         <div class="col-xs-12 col-md-2">
         </div>
       <div class="col-xs-12 col-md-4">
         <div class="actions">
           <%= f.hidden_field :user_id, value: current_user.id %>
-          <%= f.hidden_field :product_id, value: @product.id %>
-          <%= f.hidden_field :price, value: @product.price %>
+          <%= f.hidden_field :product_id, value: product.id %>
+          <%= f.hidden_field :price, value: product.price %>
           <%= submit_tag("Add to Car", class: "btn btn-success btn-block") %>
         </div>
       </div>
