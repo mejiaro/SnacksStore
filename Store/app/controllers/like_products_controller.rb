@@ -16,7 +16,7 @@ class LikeProductsController < ApplicationController
 
   def destroy
     usr = User.find(current_user.id)
-    prd = Product.find(params[:product])
+    prd = Product.find(params[:id])
     @like = LikeProduct.find_by(user: usr, product: prd)
     @delete = LikeProduct.destroy(@like.id)
     if @delete.destroy

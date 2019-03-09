@@ -38,9 +38,9 @@
           <span style="text-align:right;">
             <% if user_signed_in? %>
               <% if LikeProduct.where(user: current_user, product: prod).empty?%>
-                <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_create_path(:product => prod), method: :post %>
+                <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_products_path(:product => prod), method: :post %>
               <% else %>
-                <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_destroy_path(:product => prod), method: :post %>
+                <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_product_path(:id => prod), method: :delete %>
               <% end %>
             <% end %>
           </span>
