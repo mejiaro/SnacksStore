@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2019_03_08_151349) do
     t.bigint "user_id"
     t.bigint "product_id"
     t.integer "quantity"
-    t.float "price"
+    t.decimal "price"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2019_03_08_151349) do
     t.bigint "order_id"
     t.bigint "product_id"
     t.integer "quantity"
-    t.float "price"
+    t.decimal "price"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(version: 2019_03_08_151349) do
 
   create_table "orders", force: :cascade do |t|
     t.bigint "user_id"
-    t.datetime "date"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -67,7 +66,7 @@ ActiveRecord::Schema.define(version: 2019_03_08_151349) do
   create_table "products", force: :cascade do |t|
     t.string "sku"
     t.string "product_name"
-    t.float "price"
+    t.decimal "price"
     t.integer "quantity"
     t.bigint "category_id"
     t.string "status"
