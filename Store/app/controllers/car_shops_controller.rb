@@ -1,9 +1,13 @@
 class CarShopsController < ApplicationController
   def index
-    usr = User.find(current_user.id)
-    @product = CarShop.all.where(user: usr)
-    @total = 0
-    @product.each { |val| @total += (val.price * val.quantity)}
+    if user_signed_in?
+      usr = User.find(current_user.id)
+      @product = CarShop.all.where(user: usr)
+      @total = 0
+      @product.each { |val| @total += (val.price * val.quantity) }
+    else
+      redirect_to product_index_path
+    end
   end
 
   def new
@@ -24,13 +28,13 @@ class CarShopsController < ApplicationController
   end
 
   def create
-    usr = User.find(params[:car_shop][:user])
-    prd = Product.find(params[:car_shop][:product])
+    usr = User.find(params[:car_shop][:user_id])
+    prd = Product.find(params[:car_shop][:product_id])
     @car_list = CarShop.find_by(user: usr, product: prd)
     if @car_list
       @car_list.quantity += params[:car_shop][:quantity].to_i
     else
-      @car_list = CarShop.new(user: usr, product: prd, quantity: params[:car_shop][:quantity], price: params[:car_shop][:price])
+      @car_list = CarShop.new(car_params)
     end
     if @car_list.save
       prd.quantity -= params[:car_shop][:quantity].to_i
@@ -39,5 +43,11 @@ class CarShopsController < ApplicationController
     else
       redirect_to product_index_path, flash: { alert: 'Product was not added.', alert_type: 'success' }
     end
+  end
+
+  private
+
+  def car_params
+    params.require(:car_shop).permit(:user_id, :product_id, :quantity, :price)
   end
 end
