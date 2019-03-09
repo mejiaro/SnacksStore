@@ -1,27 +1,32 @@
 class ProductController < ApplicationController
-  def index
-    @product = Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:likes])
-    get_variable
-  end
+  before_action :product, :category
+  helper_method :product, :category
+  def index; end
 
   def show
-    if user_signed_in?
-      @car_shop = CarShop.new
-      @product = Product.find(params[:id_product])
-    else
-      redirect_to new_user_session_url
-    end
+    @car_shop = CarShop.new
   end
 
-  def category
-    @categ = Category.find(params[:category])
-    @product = Product.where(category: @categ).search(params[:term], params[:page], params[:sort], params[:likes])
-    get_variable
-  end
+  def category; end
 
   private
 
-  def get_variable
+  def product
+    @product ||=
+      if action_name == 'index'
+        Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:likes])
+      elsif action_name == 'show'
+        if user_signed_in?
+          Product.find(params[:id_product])
+        else
+          redirect_to(new_user_session_url)
+        end
+      else
+        Product.where(category_id: params[:category]).search(params[:term], params[:page], params[:sort], params[:likes])
+      end
+  end
+
+  def category
     @category = Category.all.order('name ASC')
   end
 end

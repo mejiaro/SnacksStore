@@ -15,11 +15,10 @@ class OrdersController < ApplicationController
                                 quantity: val.quantity,
                                 price: val.price,
                                 status: 'P')
-      @detail.save
+      CarShop.where(user: usr,product: val.product).destroy_all if @detail.save
     end
     @last.status = 'P'
-    @last
-    CarShop.where(user: usr).destroy_all
-    redirect_to product_index_path
+    @last.save
+    redirect_to product_index_path and return
   end
 end

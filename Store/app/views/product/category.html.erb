@@ -10,7 +10,7 @@
 <%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by name</button>'.html_safe, product_index_path(:sort => "product_name ASC") %>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-down" type="button"> Sort by name</button>'.html_safe, product_index_path(:sort => "product_name DESC") %>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-down" type="button"> Sort by likes</button>'.html_safe, product_index_path(:likes => "likes_count DESC") %>
-<%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by likes</button>'.html_safe, product_index_path(:sort => "likes_count ASC") %>
+<%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by likes</button>'.html_safe, product_index_path(:likes => "likes_count ASC") %>
 <div class="col-xs-12 col-md-8"></div>
 <div class="col-xs-12 col-md-3">
   <%= form_tag(product_index_path, method: :get) do %>
@@ -38,9 +38,9 @@
           <span style="text-align:right;">
             <% if user_signed_in? %>
               <% if LikeProduct.where(user: current_user, product: prod).empty?%>
-                <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_create_path(:product => prod), method: :post %>
+                <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_products_path(:product => prod), method: :post %>
               <% else %>
-                <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_destroy_path(:product => prod), method: :post %>
+                <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_product_path(:id => prod), method: :delete %>
               <% end %>
             <% end %>
           </span>
@@ -56,7 +56,7 @@
               likes</p>
           </div>
           <div class="col-xs-12 col-md-6">
-            <a href="show?id_product=<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
+            <a href="product/show?id_product=<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
           </div>
         </div>
       </div>
