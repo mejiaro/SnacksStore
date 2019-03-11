@@ -7,8 +7,6 @@ class ProductController < ApplicationController
     @car_shop = CarShop.new
   end
 
-  def category; end
-
   private
 
   def product
@@ -31,6 +29,6 @@ class ProductController < ApplicationController
   end
 
   def search_params
-    params.fetch(:product_name, {}).permit(:category_id, :term, :page, :sort, :likes)
+    params.fetch(:product_name, {}).permit(:category_id, :term, :page, :sort)
   end
 end

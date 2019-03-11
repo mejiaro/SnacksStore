@@ -7,6 +7,7 @@
 <br>
 <br>
 <br>
+<%= link_to '<button class="btn btn-primary" type="button">See all</button>'.html_safe, product_index_path %>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-up" type="button"> Sort by name</button>'.html_safe, product_index_path(request.query_parameters.merge(:sort => "product_name ASC")) %>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-down" type="button"> Sort by name</button>'.html_safe, product_index_path(request.query_parameters.merge(:sort => "product_name DESC")) %>
 <%= link_to '<button class="btn btn-primary fas fa-chevron-down" type="button"> Sort by likes</button>'.html_safe, product_index_path(request.query_parameters.merge(:sort => "likes_count DESC")) %>
