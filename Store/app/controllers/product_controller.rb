@@ -14,19 +14,23 @@ class ProductController < ApplicationController
   def product
     @product ||=
       if action_name == 'index'
-        Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:likes])
+        Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category])
       elsif action_name == 'show'
         if user_signed_in?
-          Product.find(params[:id_product])
+          Product.find(params[:id])
         else
           redirect_to(new_user_session_url)
         end
       else
-        Product.where(category_id: params[:category]).search(params[:term], params[:page], params[:sort], params[:likes])
+        Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category])
       end
   end
 
   def category
     @category = Category.all.order('name ASC')
+  end
+
+  def search_params
+    params.fetch(:product_name, {}).permit(:category_id, :term, :page, :sort, :likes)
   end
 end

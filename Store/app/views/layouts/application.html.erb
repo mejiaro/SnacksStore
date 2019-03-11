@@ -24,7 +24,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <% if user_signed_in? %>
             <ul class="nav navbar-nav  navbar-right">
-                <a  style="color:gray;" href="./car_shops">Shopping Car</a>
+                <%= link_to "Car Shop", car_shops_path %>
             </ul>
             <% end %>
             <ul class="nav navbar-nav navbar-right">

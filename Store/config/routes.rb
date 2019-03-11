@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'product#index'
-  namespace :product do
-    get 'category'
-  end
   resources :product
   resources :car_shops
   resources :orders
