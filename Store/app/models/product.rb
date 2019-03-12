@@ -4,6 +4,7 @@ class Product < ApplicationRecord
   has_many :car_shop
   has_many :orders, through: :order_details
   has_many :like_products
+  has_one_attached :image
   def self.search(term, page, sort, category)
     if term && category && !sort
       where('product_name LIKE ? AND category_id = ?', "%#{term}%", category).order('product_name ASC').paginate(page: page, per_page: 8)

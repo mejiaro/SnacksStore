@@ -27,7 +27,11 @@ local:
 #   storage_account_name: your_account_name
 #   storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
 #   container: your_container_name
-
+azure:
+  service: AzureStorage
+  storage_account_name: "applaudo"
+  storage_access_key: "y0y6kSmRCfSXDeOX49iOnM86SKcZlIWxKc7CggiDwkVEP0qnQRavRIqldGlcD9la275Sa+oleMBTJOayNHhW+Q=="
+  container: "snackstore"
 # mirror:
 #   service: Mirror
 #   primary: local
