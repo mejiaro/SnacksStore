@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'rol/rol_name:string'
   devise_for :users
   root 'product#index'
   resources :product
