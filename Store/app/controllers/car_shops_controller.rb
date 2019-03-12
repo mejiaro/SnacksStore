@@ -50,8 +50,4 @@ class CarShopsController < ApplicationController
   def car_params
     params.require(:car_shop).permit(:user_id, :product_id, :quantity, :price)
   end
-
-  def user
-
-  end
 end

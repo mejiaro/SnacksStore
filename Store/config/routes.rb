@@ -6,4 +6,9 @@ Rails.application.routes.draw do
   resources :orders
   resources :order_details
   resources :like_products
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :product
+    end
+  end
 end
