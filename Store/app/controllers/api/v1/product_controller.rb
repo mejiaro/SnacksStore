@@ -1,7 +1,6 @@
 module API
   module V1
     class ProductController < ApplicationController
-
       def index
         @product = Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category])
         respond_to do |format|
