@@ -39,9 +39,9 @@ class CarShopsController < ApplicationController
     if @car_list.save
       prd.quantity -= params[:car_shop][:quantity].to_i
       prd.save
-      redirect_to product_index_path, flash: { alert: 'Product added successfully.', alert_type: 'success' } and return
+      redirect_to car_shops_path, flash: { alert: 'Product added successfully.', alert_type: 'success' } and return
     else
-      redirect_to product_index_path, flash: { alert: 'Product was not added.', alert_type: 'success' } and return
+      redirect_to car_shops_path, flash: { alert: 'Product was not added.', alert_type: 'success' } and return
     end
   end
 
