@@ -44,7 +44,7 @@
         <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
           <span style="text-align:right;">
             <% if user_signed_in? %>
-            <% if current_user.role.rol_name != 'Admin'%>
+              <% if current_user.role.rol_name != 'Admin'%>
                 <% if LikeProduct.where(user: current_user, product: prod).empty?%>
                   <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_products_path(:product => prod), method: :post %>
                 <% else %>
@@ -66,22 +66,22 @@
               likes</p>
           </div>
           <% if user_signed_in? %>
-          <% if current_user.role.rol_name == 'Admin'%>
-          <div class="col-xs-12 col-md-6">
-            <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Edit</a>
-          </div>
-          <div class="col-xs-12 col-md-6">
-            <a href="products/<%= prod.id %> " class="btn btn-danger btn-block">Delete</a>
-          </div>
+            <% if current_user.role.rol_name == 'Admin'%>
+              <div class="col-xs-12 col-md-6">
+                <%= link_to '<button class="btn btn-success btn-block" type="button">Edit</button>'.html_safe, edit_product_url(:id => prod.id ) %>
+              </div>
+              <div class="col-xs-12 col-md-6">
+                <a href="products/<%= prod.id %> " class="btn btn-danger btn-block">Delete</a>
+              </div>
+            <%else%>
+              <div class="col-xs-12 col-md-6">
+                <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
+              </div>
+            <%end%>
           <%else%>
-          <div class="col-xs-12 col-md-6">
-            <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
-          </div>
-          <%end%>
-          <%else%>
-          <div class="col-xs-12 col-md-6">
-            <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
-          </div>
+            <div class="col-xs-12 col-md-6">
+              <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
+            </div>
           <%end%>
         </div>
       </div>

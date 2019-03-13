@@ -5,7 +5,7 @@
 <%= form_for @product do |f| %>
 
 <p><%= f.text_field :product_name, placeholder: 'Title' %></p
-<p><%= f.number_field :price, :class => 'text_field' , :step => 0.1, min:0.1, value: 0.1%></p>
+<p><%= f.number_field :price, :class => 'text_field' , :step => 0.01, min:0.1, value: 0.1%></p>
 <p><%= f.number_field :quantity, :class => 'text_field' , min:1, value: 1%></p>
 <%= f.collection_select(:category_id, Category.all, :id, :name) %>
 <%= f.file_field :image%>
