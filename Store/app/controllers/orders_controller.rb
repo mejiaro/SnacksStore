@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
                                 quantity: val.quantity,
                                 price: val.price,
                                 status: 'P')
-      CarShop.where(user: usr,product: val.product).destroy_all if @detail.save
+      CarShop.where(user: usr, product: val.product).destroy_all if @detail.save
     end
     @last.status = 'P'
     @last.save

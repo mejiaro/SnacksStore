@@ -21,8 +21,13 @@ class ProductsController < ApplicationController
   def edit; end
 
   def update
+    old_price = @product.price
     @product.assign_attributes(update_params)
     if @product.save
+      if old_price != params[:product][:price]
+        @log=Log.new(user_id: current_user.id, description: 'The price of the product has change', product_id: @product.id, old_price: old_price, new_price: @product.price)
+        @log.save
+      end
       redirect_to(products_path) && return
     else
       render 'edit'

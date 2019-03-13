@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :products
   resources :car_shops
   resources :orders
+  resources :logs
   resources :order_details
   resources :like_products
   namespace :api, defaults: { format: :json } do

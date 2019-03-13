@@ -2,6 +2,7 @@ class Product < ApplicationRecord
   # relations
   belongs_to :category
   has_many :order_details
+  has_many :log
   has_many :car_shop
   has_many :orders, through: :order_details
   has_many :like_products
