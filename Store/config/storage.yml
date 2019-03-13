@@ -1,10 +1,14 @@
 test:
-  service: Disk
-  root: <%= Rails.root.join("tmp/storage") %>
+  service: AzureStorage
+  storage_account_name: "applaudo"
+  storage_access_key: "y0y6kSmRCfSXDeOX49iOnM86SKcZlIWxKc7CggiDwkVEP0qnQRavRIqldGlcD9la275Sa+oleMBTJOayNHhW+Q=="
+  container: "snackstore"
 
 local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>
+  service: AzureStorage
+  storage_account_name: "applaudo"
+  storage_access_key: "y0y6kSmRCfSXDeOX49iOnM86SKcZlIWxKc7CggiDwkVEP0qnQRavRIqldGlcD9la275Sa+oleMBTJOayNHhW+Q=="
+  container: "snackstore"
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:

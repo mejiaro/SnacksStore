@@ -17,61 +17,82 @@
   <%= form_tag(products_path, method: :get) do %>
   <% request.query_parameters.each do |key, value| %>
     <%= hidden_field_tag(key, value) %>
-     <% end %>
-    <%= text_field_tag :term, params[:term], class: "form-control" %>
-  </div>
-  <div class="actions">
-    <%= submit_tag 'Search', name: nil %>
-  </div>
+  <% end %>
+  <%= text_field_tag :term, params[:term], class: "form-control" %>
+</div>
+<div class="actions">
+  <%= submit_tag 'Search', name: nil %>
+</div>
 <% end %>
 <br>
 <br>
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 shop-tab-menu">
-  <div class="list-group">
-    <%  category.each do |cat| %>
-      <%= link_to raw("<button class='list-group-item' type='button'><h4><i class='fa fa-chevron-right' aria-hidden='true'></i>#{cat.name}</h4></button>"), products_path(request.query_parameters.merge(:category => "#{cat.id}")) %>
-    <% end %>
-  </div>
+<div class="list-group">
+  <%  category.each do |cat| %>
+    <%= link_to raw("<button class='list-group-item' type='button'><h4><i class='fa fa-chevron-right' aria-hidden='true'></i>#{cat.name}</h4></button>"), products_path(request.query_parameters.merge(:category => "#{cat.id}")) %>
+  <% end %>
+</div>
 </div>
 <div id="products" class="row list-group">
-  <%  product.each do |prod| %>
-    <div class="item  col-xs-4 col-lg-4">
-      <div class="thumbnail">
-        <div class="caption">
-          <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
-            <span style="text-align:right;">
-              <% if user_signed_in? %>
+<%  product.each do |prod| %>
+  <div class="item  col-xs-4 col-lg-4">
+    <div class="thumbnail">
+      <%if prod.image.attached?%>
+        <%= image_tag prod.image.variant(resize: "100x100"), :class => 'group list-group-image' %>
+      <%end%>
+      <div class="caption">
+        <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
+          <span style="text-align:right;">
+            <% if user_signed_in? %>
+            <% if current_user.role.rol_name != 'Admin'%>
                 <% if LikeProduct.where(user: current_user, product: prod).empty?%>
                   <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_products_path(:product => prod), method: :post %>
                 <% else %>
                   <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_product_path(:id => prod), method: :delete %>
                 <% end %>
               <% end %>
-            </span>
-          </h4>
-          <p class="group inner list-group-item-text">Category:
-            <%= prod.category.name %></p>
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <p class="lead"><%= number_to_currency prod.price %></p>
-            </div>
-            <div class="col-xs-12 col-md-6">
-              <p class="lead"><%= prod.like_products.size %>
-                likes</p>
-            </div>
-            <div class="col-xs-12 col-md-6">
-              <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
-            </div>
+            <%end%>
+          </span>
+        </h4>
+        <p class="group inner list-group-item-text">Category:
+          <%= prod.category.name %></p>
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <p class="lead"><%= number_to_currency prod.price %></p>
           </div>
+
+          <div class="col-xs-12 col-md-6">
+            <p class="lead"><%= prod.like_products.size %>
+              likes</p>
+          </div>
+          <% if user_signed_in? %>
+          <% if current_user.role.rol_name == 'Admin'%>
+          <div class="col-xs-12 col-md-6">
+            <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Edit</a>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <a href="products/<%= prod.id %> " class="btn btn-danger btn-block">Delete</a>
+          </div>
+          <%else%>
+          <div class="col-xs-12 col-md-6">
+            <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
+          </div>
+          <%end%>
+          <%else%>
+          <div class="col-xs-12 col-md-6">
+            <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
+          </div>
+          <%end%>
         </div>
       </div>
     </div>
-  <% end %>
+  </div>
+<% end %>
 </div>
 </div>
 <div class="apple_pagination">
 <div class="page_info">
-  <%= page_entries_info product %>
+<%= page_entries_info product %>
 </div>
 <%= will_paginate product, :container => false %>
 </div>

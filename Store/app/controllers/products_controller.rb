@@ -1,3 +1,4 @@
+require 'securerandom'
 class ProductsController < ApplicationController
   before_action :product, :category
   helper_method :product, :category
@@ -47,6 +48,6 @@ class ProductsController < ApplicationController
   end
 
   def post_params
-    params.require(:product).permit(:quantity, :product_name, :price, :category_id)
+    params.require(:product).permit(:quantity, :product_name, :price, :category_id, :image, :sku, :status)
   end
 end
