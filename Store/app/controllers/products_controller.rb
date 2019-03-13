@@ -18,13 +18,24 @@ class ProductsController < ApplicationController
     end
   end
 
+  def edit; end
+
+  def update
+    @product.assign_attributes(update_params)
+    if @product.save
+      redirect_to(products_path) && return
+    else
+      render 'edit'
+    end
+  end
+
   private
 
   def product
     @product ||=
       if action_name == 'index'
         Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category])
-      elsif action_name == 'show'
+      elsif %w[update edit show].include?(action_name)
         if user_signed_in?
           Product.find(params[:id])
         else
@@ -49,5 +60,9 @@ class ProductsController < ApplicationController
 
   def post_params
     params.require(:product).permit(:quantity, :product_name, :price, :category_id, :image, :sku, :status)
+  end
+
+  def update_params
+    params.require(:product).permit(:quantity, :product_name, :price, :category_id)
   end
 end
