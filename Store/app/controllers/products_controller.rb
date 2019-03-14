@@ -26,7 +26,7 @@ class ProductsController < ApplicationController
     @product.assign_attributes(update_params)
     if @product.save
       if old_price != params[:product][:price]
-        @log=Log.new(user_id: current_user.id, description: 'The price of the product has change', product_id: @product.id, old_price: old_price, new_price: @product.price)
+        @log = Log.new(user_id: current_user.id, description: 'The price of the product has change', product_id: @product.id, old_price: old_price, new_price: @product.price)
         @log.save
       end
       redirect_to(products_path) && return
@@ -35,13 +35,22 @@ class ProductsController < ApplicationController
     end
   end
 
+  def destroy
+    @product.status = 'D'
+    if @product.save
+      redirect_to(products_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }) && return
+    else
+      redirect_to(products_path, flash: { alert: 'Product was not deleted.', alert_type: 'success' }) && return
+    end
+  end
+
   private
 
   def product
     @product ||=
       if action_name == 'index'
-        Product.with_attached_image.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category]).includes(:category,:like_products)
-      elsif %w[update edit show].include?(action_name)
+        Product.with_attached_image.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category]).includes(:category, :like_products)
+      elsif %w[update edit show destroy].include?(action_name)
         if user_signed_in?
           Product.find(params[:id])
         else

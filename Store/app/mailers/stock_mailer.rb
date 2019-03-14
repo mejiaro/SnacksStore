@@ -3,8 +3,8 @@ class StockMailer < ApplicationMailer
 
   def send_notification_mail(product)
     @product = product
-
+    #like = LikeProduct.find_by(product_id: product.id).last
+    #@user = User.find(like.user_id)
     mail(to: 'cemg_neto@hotmail.com', subject: "The product #{@product.product_name} is almost out of stock!!")
-    @cover_url = rails_blob_url(@product.image, disposition: 'attachment', only_path: true)
   end
 end
