@@ -15,7 +15,7 @@ module API
             render  status: 200,
                     json: { success: true,
                             info: 'Logged in sucessfully.' }
-            response.headers['auth_token'] = token
+            response.headers['token'] = token
 
           else
             render  status: :Unauthorized,
@@ -30,7 +30,7 @@ module API
       end
 
       def index
-        data = request.headers[:token]
+        data = request.headers['token']
         begin
           decoded = JWT.decode data, RKEY, true, algorithm: 'HS256'
           user_id = decoded[0]['user_id']
