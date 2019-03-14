@@ -2,14 +2,14 @@
   Edit Product
 </h1>
 
-<%= form_for @product do |f| %>
+<%= form_for product do |f| %>
 
 <p><%= f.text_field :product_name, placeholder: 'Title' %></p
-<p><%= f.number_field :price, :class => 'text_field' , :step => 0.01, min:0.1, value: @product.price%></p>
-<p><%= f.number_field :quantity, :class => 'text_field' , min:1, value:  @product.quantity%></p>
-<p><%= f.collection_select :category_id, Category.all, :id, :name, :prompt => true, :selected => @product.category_id || 2 %></p>
-<%if @product.image.attached?%>
-<p><%=image_tag @product.image.variant(resize: "100x100") %></p>
+<p><%= f.number_field :price, :class => 'text_field' , :step => 0.01, min:0.1, value: product.price%></p>
+<p><%= f.number_field :quantity, :class => 'text_field' , min:1, value:  product.quantity%></p>
+<p><%= f.collection_select :category_id, category, :id, :name, :prompt => true, :selected => product.category_id || 2 %></p>
+<%if product.image.attached?%>
+<p><%=image_tag product.image.variant(resize: "100x100") %></p>
 <%end%>
 <p><%= f.submit "Submit" %></p>
 <% end %>

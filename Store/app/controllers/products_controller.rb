@@ -39,7 +39,7 @@ class ProductsController < ApplicationController
   def product
     @product ||=
       if action_name == 'index'
-        Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category])
+        Product.with_attached_image.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category]).includes(:category,:like_products)
       elsif %w[update edit show].include?(action_name)
         if user_signed_in?
           Product.find(params[:id])
