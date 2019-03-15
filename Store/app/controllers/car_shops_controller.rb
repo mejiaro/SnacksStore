@@ -39,6 +39,9 @@ class CarShopsController < ApplicationController
     if @car_list.save
       prd.quantity -= params[:car_shop][:quantity].to_i
       prd.save
+      if prd.quantity <= 3 && LikeProduct.find_by(product_id: prd.id)
+        SendNotificationsJob.perform_now(prd)
+      end
       redirect_to car_shops_path, flash: { alert: 'Product added successfully.', alert_type: 'success' } and return
     else
       redirect_to car_shops_path, flash: { alert: 'Product was not added.', alert_type: 'success' } and return

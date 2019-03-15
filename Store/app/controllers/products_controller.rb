@@ -12,7 +12,6 @@ class ProductsController < ApplicationController
 
   def create
     if @product.save
-      SendNotificationsJob.perform_now(@product)
       redirect_to(products_path)
     else
       render 'new'
