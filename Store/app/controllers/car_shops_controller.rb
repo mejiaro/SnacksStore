@@ -2,11 +2,13 @@ class CarShopsController < ApplicationController
   before_action :user_id
   def index
     if user_signed_in?
-      usr = User.find(current_user.id)
-      seed_cart
-      @product = CarShop.all.where(user: usr)
-      @total = 0
-      @product.each { |val| @total += (val.price * val.quantity) }
+      if current_user.role.rol_name != 'Admin'
+        usr = User.find(current_user.id)
+        seed_cart
+        @product = CarShop.all.where(user: usr)
+        @total = 0
+        @product.each { |val| @total += (val.price * val.quantity) }
+      end
     else
       usr = session[:current_user_id]
       @product = CarShop.all.where(user_id: usr)
