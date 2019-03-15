@@ -13,9 +13,9 @@ class ProductsController < ApplicationController
 
   def create
     if @product.save
-      redirect_to(products_path)
+      redirect_to(products_path, flash: { alert: 'Product created successfully.', alert_type: 'success' }) && return
     else
-      render 'new'
+      redirect_to( new_product_url, flash: { alert: 'Product was not created.', alert_type: 'danger' }) && return
     end
   end
 
@@ -40,7 +40,7 @@ class ProductsController < ApplicationController
     if @product.save
       redirect_to(products_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }) && return
     else
-      redirect_to(products_path, flash: { alert: 'Product was not deleted.', alert_type: 'success' }) && return
+      redirect_to(products_path, flash: { alert: 'Product was not deleted.', alert_type: 'danger' }) && return
     end
   end
 

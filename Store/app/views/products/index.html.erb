@@ -41,7 +41,7 @@
       <%if prod.image.attached?%>
         <%= image_tag prod.image.variant(resize: "100x100"), :class => 'group list-group-image' %>
         <%else%>
-        <%= image_tag("null_image.png", :alt => "not image", :class => 'group list-group-image', :style => 'width: 100px;') %>
+        <%= image_tag("null_image.png", :alt => "not image", :class => 'group list-group-image', :style => 'width: 100px; height: 100px;') %>
       <%end%>
       <div class="caption">
         <h4 class="group inner list-group-item-heading"><%= prod.product_name %>

@@ -21,9 +21,9 @@ class CarShopsController < ApplicationController
     prd.quantity += @car_delete.quantity.to_i
     if @car_delete.destroy
       prd.save
-      redirect_to car_shops_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' } and return
+      redirect_to(car_shops_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }) && return
     else
-      redirect_to car_shops_path, flash: { alert: 'Product was not deleted.', alert_type: 'success' } and return
+      redirect_to(car_shops_path, flash: { alert: 'Product was not deleted.', alert_type: 'danger' }) && return
     end
   end
 
@@ -39,12 +39,12 @@ class CarShopsController < ApplicationController
     if @car_list.save
       prd.quantity -= params[:car_shop][:quantity].to_i
       prd.save
-      if prd.quantity <= 3 && LikeProduct.find_by(product_id: prd.id)
+      if prd.quantity <= 3 && !prd.like_products.empty?
         SendNotificationsJob.perform_later(prd)
       end
-      redirect_to car_shops_path, flash: { alert: 'Product added successfully.', alert_type: 'success' } and return
+      redirect_to(car_shops_path, flash: { alert: 'Product added successfully.', alert_type: 'success' }) && return
     else
-      redirect_to car_shops_path, flash: { alert: 'Product was not added.', alert_type: 'success' } and return
+      redirect_to(car_shops_path, flash: { alert: 'Product was not added.', alert_type: 'danger' }) && return
     end
   end
 
