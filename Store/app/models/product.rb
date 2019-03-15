@@ -11,6 +11,8 @@ class Product < ApplicationRecord
   # validations
   validates :sku, :product_name, presence: true
   validates :sku, uniqueness: true
+  validates :quantity, numericality: { greater_than_or_equal_to: 0 }, on: :create
+
   def self.search(term, page, sort, category)
     if term && category && !sort
       where('product_name LIKE ? AND category_id = ?', "%#{term}%", category).order('product_name ASC').paginate(page: page, per_page: 8)

@@ -11,5 +11,6 @@
 <%if product.image.attached?%>
 <p><%=image_tag product.image.variant(resize: "100x100") %></p>
 <%end%>
+<p><%= f.file_field :image%></p>
 <p><%= f.submit "Submit" %></p>
 <% end %>
