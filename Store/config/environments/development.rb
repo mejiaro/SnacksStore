@@ -69,4 +69,7 @@ Rails.application.configure do
     :port => '2525',
     :authentication => :cram_md5
   }
+
+config.action_controller.asset_host = 'http://localhost:3000'
+config.action_mailer.asset_host = config.action_controller.asset_host
 end
