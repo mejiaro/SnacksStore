@@ -60,8 +60,11 @@
             <strong>Total
               <%= number_to_currency @total%></strong>
           </td>
-          <td><%= link_to '<button class="btn btn-success btn-block" type="button">Checkout</button>'.html_safe, orders_path, method: :post%>
-          </td>
+          <%if user_signed_in?%>
+          <td><%= link_to '<button class="btn btn-success btn-block" type="button">Checkout</button>'.html_safe, orders_path, method: :post%> </td>
+          <% else %>
+          <td><%= link_to '<button class="btn btn-success btn-block" type="button">Sign In</button>'.html_safe, new_user_session_path%> </td>
+          <% end %>
         </tr>
       </tfoot>
     </table>

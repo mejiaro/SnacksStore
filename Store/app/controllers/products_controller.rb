@@ -51,11 +51,7 @@ class ProductsController < ApplicationController
       if action_name == 'index'
         Product.with_attached_image.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category]).includes(:category, :like_products)
       elsif %w[update edit show destroy].include?(action_name)
-        if user_signed_in?
           Product.find(params[:id])
-        else
-          redirect_to(new_user_session_url)
-        end
       elsif action_name == 'create'
         Product.new(post_params)
       elsif action_name == 'new'

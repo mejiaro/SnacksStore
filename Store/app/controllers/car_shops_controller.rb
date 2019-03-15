@@ -1,12 +1,17 @@
 class CarShopsController < ApplicationController
+  before_action :user_id
   def index
     if user_signed_in?
       usr = User.find(current_user.id)
+      seed_cart
       @product = CarShop.all.where(user: usr)
       @total = 0
       @product.each { |val| @total += (val.price * val.quantity) }
     else
-      redirect_to product_index_path
+      usr = session[:current_user_id]
+      @product = CarShop.all.where(user_id: usr)
+      @total = 0
+      @product.each { |val| @total += (val.price * val.quantity) }
     end
   end
 
@@ -15,8 +20,7 @@ class CarShopsController < ApplicationController
   end
 
   def destroy
-    usr = User.find(current_user.id)
-    @car_delete = CarShop.find_by(user: usr, product_id: params[:id])
+    @car_delete = CarShop.find_by(user_id: @user_id, product_id: params[:id])
     prd = Product.find(params[:id])
     prd.quantity += @car_delete.quantity.to_i
     if @car_delete.destroy
@@ -28,9 +32,8 @@ class CarShopsController < ApplicationController
   end
 
   def create
-    usr = User.find(params[:car_shop][:user_id])
     prd = Product.find(params[:car_shop][:product_id])
-    @car_list = CarShop.find_by(user: usr, product: prd)
+    @car_list = CarShop.find_by(user_id: @user_id, product: prd)
     if @car_list
       @car_list.quantity += params[:car_shop][:quantity].to_i
     else
@@ -51,6 +54,31 @@ class CarShopsController < ApplicationController
   private
 
   def car_params
-    params.require(:car_shop).permit(:user_id, :product_id, :quantity, :price)
+    params.require(:car_shop).permit(:product_id, :quantity, :price).merge(user_id: @user_id)
+  end
+
+  def user_id
+    @user_id = if user_signed_in?
+                 current_user.id
+               else
+                 unless session[:current_user_id]
+                   session[:current_user_id] = SecureRandom.random_number(999_999)
+                 end
+                 session[:current_user_id]
+               end
+  end
+
+  def seed_cart
+    usr = session[:current_user_id]
+    if usr
+      @product_session = CarShop.all.where(user_id: usr)
+      if @product_session
+        @product_session.each do |item|
+          item.user_id = current_user.id
+          item.save
+        end
+      end
+      session[:current_user_id] == ''
+    end
   end
 end
