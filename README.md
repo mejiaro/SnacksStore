@@ -43,7 +43,7 @@
       email=[string]
       password=[string]
 
-- **Success Response:**
+-  **Success Response:**
 
       - **Code:** 200    
   ```
@@ -92,7 +92,7 @@
 
 - **Success Response:**
 
-      - **Code:** 200    
+      -  **Code:** 200    
   ```
   {
     "user": {
@@ -105,9 +105,9 @@
     }
 }
 ```
-- **Error Response:**
+-  **Error Response:**
 
-    - **Code:** 401
+    -  **Code:** 401
     **Content:**
 ```
   {
@@ -117,7 +117,7 @@
 
     OR
 
-    - **Code:** 404
+    -  **Code:** 404
     **Content:**
 ```
 {
