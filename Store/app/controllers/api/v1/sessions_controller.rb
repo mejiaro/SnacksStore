@@ -18,14 +18,14 @@ module API
             response.headers['token'] = token
 
           else
-            render  status: :Unauthorized,
+            render  status: 403,
                     json: { success: false,
                             info: 'Login failed.' }
           end
         else
-          render  status: 422,
+          render  status: 404,
                   json: { success: false,
-                          info: 'Login failed.' }
+                          info: 'Email not found.' }
         end
       end
     end

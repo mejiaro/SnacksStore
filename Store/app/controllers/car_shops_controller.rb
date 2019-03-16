@@ -3,9 +3,8 @@ class CarShopsController < ApplicationController
   def index
     if user_signed_in?
       if current_user.role.rol_name != 'Admin'
-        usr = User.find(current_user.id)
         seed_cart
-        @product = CarShop.all.where(user: usr)
+        @product = CarShop.all.where(user_id: current_user.id)
         @total = 0
         @product.each { |val| @total += (val.price * val.quantity) }
       end
