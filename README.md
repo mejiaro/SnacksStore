@@ -39,33 +39,30 @@
 -  **Params**
 
       **Required:**
-
+```
       email=[string]
       password=[string]
-
+```
 -  **Success Response:**
 
       - **Code:** 200    
-  ```
-  {
-    "success": true,
-    "info": "Logged in sucessfully."
-  }
+```
+  {"success": true,
+    "info": "Logged in sucessfully."}
 ```
 - **Error Response:**
 
     - **Code:** 403
     **Content:**
 ```
-  {
-    "success": false,
+  {"success": false,
     "info": "Login failed."
   }
 ```
 
-    OR
+OR
 
-    - **Code:** 404
+  - **Code:** 404
     **Content:**
 ```
   {
@@ -85,15 +82,15 @@
  ```
 - **Params**
 
-      **Required:**
-
+     **Required:**
+```
       token=[string] => To be send in header
-
+```
 
 - **Success Response:**
 
-      -  **Code:** 200    
-  ```
+     -  **Code:** 200    
+ ```
   {
     "user": {
         "id": 1,
@@ -115,9 +112,9 @@
   }
 ```
 
-    OR
+ OR
 
-    -  **Code:** 404
+   -  **Code:** 404
     **Content:**
 ```
 {
