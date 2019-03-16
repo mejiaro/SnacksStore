@@ -53,6 +53,7 @@
 - **Error Response:**
 
     - **Code:** 403
+
     **Content:**
 ```
   {"success": false,
@@ -63,6 +64,7 @@
 OR
 
   - **Code:** 404
+    
     **Content:**
 ```
   {
@@ -75,7 +77,9 @@ OR
 
 
 - **URL**
+
   /api/v1/users
+
 - **Method**
  ```
  POST
@@ -105,6 +109,7 @@ OR
 -  **Error Response:**
 
     -  **Code:** 401
+
     **Content:**
 ```
   {
@@ -115,7 +120,8 @@ OR
  OR
 
    -  **Code:** 404
-    **Content:**
+    
+   **Content:**
 ```
 {
   "info": "user not found"
