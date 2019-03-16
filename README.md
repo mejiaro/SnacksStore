@@ -29,12 +29,14 @@
 ## Log in
 
 - **URL**
+
   /api/v1/sessions
+
 - **Method**
  ```
  POST
  ```
-- **Params**
+-  **Params**
 
       **Required:**
 
