@@ -1,17 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  sku: MyString
-  product_name: MyString
+  sku: 1323446499956
+  product_name: chair
   price: 1.5
   quantity: 1
   category: one
-  status: MyString
+  status: A
 
 two:
-  sku: MyString
-  product_name: MyString
+  sku: 1323446499957
+  product_name: Snicker
   price: 1.5
   quantity: 1
   category: two
-  status: MyString
+  status: A
