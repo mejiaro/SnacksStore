@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
       @last.save
       redirect_to(products_path, flash: { alert: 'Order created successfully.', alert_type: 'success' }) && return
     rescue StandardError
-      redirect_to(new_product_url, flash: { alert: 'Order was not created.', alert_type: 'danger' }) && return
+      redirect_to(car_shops_path, flash: { alert: 'Order was not created.', alert_type: 'danger' }) && return
     end
   end
 end

@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'minitest/mock'
 
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
@@ -49,7 +48,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'products should create product' do
+  test 'should create a product' do
     sign_in users(:one)
     assert_difference('Product.count') do
       post products_url, params: { product: @update }
