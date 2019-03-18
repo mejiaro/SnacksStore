@@ -12,36 +12,54 @@ class ProductsController < ApplicationController
   def new; end
 
   def create
-    if @product.save
-      redirect_to(products_path, flash: { alert: 'Product created successfully.', alert_type: 'success' }) && return
-    else
-      redirect_to( new_product_url, flash: { alert: 'Product was not created.', alert_type: 'danger' }) && return
+    if user_signed_in?
+      if current_user.role.rol_name == 'Admin'
+        if @product.save
+          redirect_to(products_path, flash: { alert: 'Product created successfully.', alert_type: 'success' }) && return
+        else
+          redirect_to(new_product_url, flash: { alert: 'Product was not created.', alert_type: 'danger' }) && return
+        end
+      end
+      redirect_to(products_path) && return
     end
+    redirect_to(products_path) && return
   end
 
   def edit; end
 
   def update
-    old_price = @product.price
-    @product.assign_attributes(update_params)
-    if @product.save
-      if old_price != params[:product][:price]
-        @log = Log.new(user_id: current_user.id, description: 'The price of the product has change', product_id: @product.id, old_price: old_price, new_price: @product.price)
-        @log.save
+    if user_signed_in?
+      if current_user.role.rol_name == 'Admin'
+        old_price = @product.price
+        @product.assign_attributes(update_params)
+        if @product.save
+          if old_price != params[:product][:price]
+            @log = Log.new(user_id: current_user.id, description: 'The price of the product has change', product_id: @product.id, old_price: old_price, new_price: @product.price)
+            @log.save
+          end
+          redirect_to(products_path) && return
+        else
+          render 'edit'
+        end
       end
       redirect_to(products_path) && return
-    else
-      render 'edit'
     end
+    redirect_to(products_path) && return
   end
 
   def destroy
-    @product.status = 'D'
-    if @product.save
-      redirect_to(products_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }) && return
-    else
-      redirect_to(products_path, flash: { alert: 'Product was not deleted.', alert_type: 'danger' }) && return
+    if user_signed_in?
+      if current_user.role.rol_name == 'Admin'
+        @product.status = 'D'
+        if @product.save
+          redirect_to(products_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }) && return
+        else
+          redirect_to(products_path, flash: { alert: 'Product was not deleted.', alert_type: 'danger' }) && return
+        end
+      end
+      redirect_to(products_path) && return
     end
+    redirect_to(products_path) && return
   end
 
   private
@@ -51,7 +69,7 @@ class ProductsController < ApplicationController
       if action_name == 'index'
         Product.with_attached_image.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category]).includes(:category, :like_products)
       elsif %w[update edit show destroy].include?(action_name)
-          Product.find(params[:id])
+        Product.find(params[:id])
       elsif action_name == 'create'
         Product.new(post_params)
       elsif action_name == 'new'
@@ -78,8 +96,8 @@ class ProductsController < ApplicationController
   end
 
   def set_cache_headers
-    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+    response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
   end
 end

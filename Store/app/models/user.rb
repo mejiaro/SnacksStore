@@ -5,5 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :car_shop
   has_many :log
+  has_many :order
   belongs_to :role
 end

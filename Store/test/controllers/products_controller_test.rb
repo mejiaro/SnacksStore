@@ -2,6 +2,7 @@ require 'test_helper'
 require 'minitest/mock'
 
 class ProductsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
   setup do
     @product = products(:one)
     @sort = { sort: 'product_name ASC' }
@@ -48,6 +49,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create product' do
+    sign_in users(:one)
     assert_difference('Product.count') do
       post products_url, params: { product: @update }
     end
@@ -56,9 +58,25 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should destroy product' do
+    sign_in users(:one)
     delete product_url(@product)
     @product.reload
     assert_equal 'D', @product.status
+    assert_redirected_to products_path
+  end
+
+  test 'should redirect when not admin delete product' do
+    sign_in users(:two)
+    delete product_url(@product)
+    assert_redirected_to products_path
+  end
+
+  test 'should redirect when not admin create product' do
+    sign_in users(:two)
+    assert_no_difference('Product.count') do
+      post products_url, params: { product: @update }
+    end
+
     assert_redirected_to products_path
   end
 end
