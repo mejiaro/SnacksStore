@@ -7,6 +7,8 @@ class CarShopsController < ApplicationController
         @product = CarShop.all.where(user_id: current_user.id)
         @total = 0
         @product.each { |val| @total += (val.price * val.quantity) }
+      else
+        redirect_to(products_path) && return
       end
     else
       usr = session[:current_user_id]
@@ -22,10 +24,10 @@ class CarShopsController < ApplicationController
 
   def destroy
     @car_delete = CarShop.find_by(user_id: @user_id, product_id: params[:id])
-    prd = Product.find(params[:id])
-    prd.quantity += @car_delete.quantity.to_i
+    @prd = Product.find(params[:id])
+    @prd.quantity += @car_delete.quantity.to_i
     if @car_delete.destroy
-      prd.save
+      @prd.save
       redirect_to(car_shops_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }) && return
     else
       redirect_to(car_shops_path, flash: { alert: 'Product was not deleted.', alert_type: 'danger' }) && return

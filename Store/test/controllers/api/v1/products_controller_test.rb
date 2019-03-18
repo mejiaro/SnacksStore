@@ -10,7 +10,7 @@ module API
       end
 
       test 'index should be success' do
-        get products_path
+        get api_v1_products_path
         assert_response :success
       end
 

@@ -5,50 +5,51 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   setup do
     @product = products(:one)
+    @cat = categories(:one)
     @sort = { sort: 'product_name ASC' }
-    @category = { category: 980_190_962 }
+    @category = { category: @cat.id }
     @term = { term: 'chocolate' }
     @update = {
       sku: 123_455_668,
       product_name: 'Apple',
       price: 1.5,
       quantity: 1,
-      category_id: 980_190_962,
+      category_id: @cat.id,
       status: 'A'
     }
   end
 
-  test 'index should be success' do
+  test 'products index should be success' do
     get products_path
     assert_response :success
   end
 
-  test 'sort by name should be success' do
+  test 'products sort by name should be success' do
     get products_path(@sort)
     assert_response :success
   end
 
-  test 'search should be success' do
+  test 'products search should be success' do
     get products_path(@term)
     assert_response :success
   end
 
-  test 'should show product' do
+  test 'products should show product' do
     get products_url(@product)
     assert_response :success
   end
 
-  test 'should get edit' do
+  test 'product should get edit' do
     get edit_product_url(@product)
     assert_response :success
   end
 
-  test 'should get new' do
+  test 'products should get new' do
     get new_product_url
     assert_response :success
   end
 
-  test 'should create product' do
+  test 'products should create product' do
     sign_in users(:one)
     assert_difference('Product.count') do
       post products_url, params: { product: @update }
@@ -57,7 +58,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to products_path
   end
 
-  test 'should destroy product' do
+  test 'products should destroy product' do
     sign_in users(:one)
     delete product_url(@product)
     @product.reload
@@ -65,13 +66,13 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to products_path
   end
 
-  test 'should redirect when not admin delete product' do
+  test 'products should redirect when not admin delete product' do
     sign_in users(:two)
     delete product_url(@product)
     assert_redirected_to products_path
   end
 
-  test 'should redirect when not admin create product' do
+  test 'products should redirect when not admin create product' do
     sign_in users(:two)
     assert_no_difference('Product.count') do
       post products_url, params: { product: @update }
