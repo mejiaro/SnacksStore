@@ -4,9 +4,9 @@ require 'minitest/mock'
 class ProductsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @product = products(:one)
-    @sort = '"product_name ASC"'
-    @category = 980_190_962
-    @term = 'chocolate'
+    @sort = { sort: 'product_name ASC' }
+    @category = { category: 980_190_962 }
+    @term = { term: 'chocolate' }
     @update = {
       sku: 123_455_668,
       product_name: 'Apple',
