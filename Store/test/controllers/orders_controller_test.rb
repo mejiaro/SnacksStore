@@ -10,7 +10,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to products_path
   end
 
-  test 'should not create an order' do
+  test 'should not create an order if user is not-logged in' do
     assert_no_difference('Order.count') do
       post orders_path
     end

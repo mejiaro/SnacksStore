@@ -1,9 +1,9 @@
 class LikeProductsController < ApplicationController
-  before_action :like, only: %i[index create like]
+  before_action :like, only: %i[new create destroy]
   def new; end
 
   def create
-    prd = Product.find(params[:product])
+    prd = Product.find(params[:id])
     if @like.save
       redirect_back(fallback_location: root_path, flash: { alert: "Like given successfully to product #{prd.product_name}", alert_type: 'success' })
     else
@@ -27,7 +27,9 @@ class LikeProductsController < ApplicationController
     @like =
       if action_name == 'new'
         LikeProduct.new
-      elsif %w[create destroy].includes?(action_name)
+      elsif action_name == 'create'
+        LikeProduct.new(user_id: current_user.id, product_id: params[:id])
+      elsif action_name == 'destroy'
         LikeProduct.find_by(user_id: current_user.id, product_id: params[:id])
       end
   end
