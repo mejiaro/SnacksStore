@@ -124,10 +124,9 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username"
-    t.bigint "role_id"
+    t.integer "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -140,5 +139,4 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
   add_foreign_key "order_details", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "categories"
-  add_foreign_key "users", "roles"
 end

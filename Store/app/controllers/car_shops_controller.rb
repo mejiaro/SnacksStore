@@ -48,7 +48,9 @@ class CarShopsController < ApplicationController
       if prd.quantity <= 3 && !prd.like_products.empty?
         SendNotificationsJob.perform_later(prd)
       end
-      redirect_to(car_shops_path, flash: { alert: 'Product added successfully.', alert_type: 'success' }) && return
+      redirect_to(car_shops_path,
+                  flash: { alert: 'Product added successfully.',
+                           alert_type: 'success' }) && return
     else
       redirect_to(car_shops_path, flash: { alert: 'Product was not added.', alert_type: 'danger' }) && return
     end

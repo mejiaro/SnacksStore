@@ -3,7 +3,14 @@ class ProductsController < ApplicationController
   before_action :set_cache_headers
   before_action :product, :category
   helper_method :product, :category
-  def index; end
+  before_action :admin_only, only: %i[new create edit update destroy]
+
+  def index
+    @product = @product.category_scope(params[:category]) if params[:category].present?
+    @product = @product.sort_scope(params[:sort]) if params[:sort].present?
+    @product = @product.term_scope(params[:term]) if params[:term].present?
+    @product = @product.page_scope(params[:page]).includes(:category, :like_products)
+  end
 
   def show
     @car_shop = CarShop.new
@@ -12,24 +19,16 @@ class ProductsController < ApplicationController
   def new; end
 
   def create
-    if user_signed_in?
-      if current_user.role.rol_name == 'Admin'
         if @product.save
           redirect_to(products_path, flash: { alert: 'Product created successfully.', alert_type: 'success' }) && return
         else
           redirect_to(new_product_url, flash: { alert: 'Product was not created.', alert_type: 'danger' }) && return
         end
-      end
-      redirect_to(products_path) && return
-    end
-    redirect_to(products_path) && return
   end
 
   def edit; end
 
   def update
-    if user_signed_in?
-      if current_user.role.rol_name == 'Admin'
         old_price = @product.price
         @product.assign_attributes(update_params)
         if @product.save
@@ -41,41 +40,30 @@ class ProductsController < ApplicationController
         else
           render 'edit'
         end
-      end
-      redirect_to(products_path) && return
-    end
-    redirect_to(products_path) && return
   end
 
   def destroy
-    if user_signed_in?
-      if current_user.role.rol_name == 'Admin'
         @product.status = 'D'
         if @product.save
           redirect_to(products_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }) && return
         else
           redirect_to(products_path, flash: { alert: 'Product was not deleted.', alert_type: 'danger' }) && return
         end
-      end
-      redirect_to(products_path) && return
-    end
-    redirect_to(products_path) && return
   end
 
   private
 
   def product
     @product ||=
-      if action_name == 'index'
-        Product.with_attached_image.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category]).includes(:category, :like_products)
+      if action_name == 'new'
+        Product.new
       elsif %w[update edit show destroy].include?(action_name)
         Product.find(params[:id])
       elsif action_name == 'create'
         Product.new(post_params)
-      elsif action_name == 'new'
-        Product.new
       else
-        Product.where("status='A'").search(params[:term], params[:page], params[:sort], params[:category])
+        Product.with_attached_image.where("status='A'")
+        # Product.search(params[:term], params[:page], params[:sort], params[:category]).includes(:category, :like_products)
       end
   end
 

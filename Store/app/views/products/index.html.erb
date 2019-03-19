@@ -38,8 +38,8 @@
 <%  product.each do |prod| %>
   <div class="item  col-xs-4 col-lg-4">
     <div class="thumbnail">
-      <%if prod.image.attached?%>
-        <%= image_tag prod.image.variant(resize: "100x100"), :class => 'group list-group-image' %>
+      <%if prod.image_attach?%>
+        <%= image_tag prod.medium_image, :class => 'group list-group-image' %>
         <%else%>
         <%= image_tag("null_image.png", :alt => "not image", :class => 'group list-group-image', :style => 'width: 100px; height: 100px;') %>
       <%end%>
@@ -47,8 +47,8 @@
         <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
           <span style="text-align:right;">
             <% if user_signed_in? %>
-              <% if current_user.role.rol_name != 'Admin'%>
-                <% if LikeProduct.where(user: current_user, product: prod).empty?%>
+              <% if !current_user.admin? %>
+                <% if prod.like_products.where(user_id: current_user.id).empty?%>
                   <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_products_path(:id => prod), method: :post %>
                 <% else %>
                   <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_product_path(:id => prod), method: :delete %>
@@ -58,18 +58,18 @@
           </span>
         </h4>
         <p class="group inner list-group-item-text">Category:
-          <%= prod.category.name %></p>
+          <%= prod.category_name %></p>
         <div class="row">
           <div class="col-xs-12 col-md-6">
             <p class="lead"><%= number_to_currency prod.price %></p>
           </div>
 
           <div class="col-xs-12 col-md-6">
-            <p class="lead"><%= prod.like_products.size %>
+            <p class="lead"><%= prod.like_size %>
               likes</p>
           </div>
           <% if user_signed_in? %>
-            <% if current_user.role.rol_name == 'Admin'%>
+            <% if current_user.admin?%>
               <div class="col-xs-12 col-md-6">
                 <%= link_to '<button class="btn btn-success btn-block" type="button">Edit</button>'.html_safe, edit_product_url(:id => prod.id ) %>
               </div>

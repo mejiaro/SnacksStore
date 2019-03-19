@@ -13,23 +13,33 @@ class Product < ApplicationRecord
   validates :sku, uniqueness: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, on: :create
 
-  def self.search(term, page, sort, category)
-    if term && category && !sort
-      where('product_name LIKE ? AND category_id = ?', "%#{term}%", category).order('product_name ASC').paginate(page: page, per_page: 8)
-    elsif term && category && sort
-      where('product_name LIKE ? AND category_id = ?', "%#{term}%", category).order(sort).paginate(page: page, per_page: 8)
-    elsif !term && !category && sort
-      order(sort).paginate(page: page, per_page: 8)
-    elsif term && !category && !sort
-      where('product_name LIKE ?', "%#{term}%").order('product_name ASC').paginate(page: page, per_page: 8)
-    elsif !term && category && sort
-      where('category_id = ?', category).order(sort).paginate(page: page, per_page: 8)
-    elsif !term && category && !sort
-      where('category_id = ?', category).order('product_name ASC').paginate(page: page, per_page: 8)
-    elsif term && !category && sort
-      where('product_name LIKE ?', "%#{term}%").order(sort).paginate(page: page, per_page: 8)
-    else
-      order('product_name ASC').paginate(page: page, per_page: 8)
-    end
+  # scopes
+  scope :sort_scope, ->(sort_val) { order(sort_val) }
+  scope :term_scope, ->(term_val) { where('product_name LIKE ?', "%#{term_val}%") }
+  scope :category_scope, ->(category_val) { where category_id: category_val }
+  scope :page_scope, ->(page_val) { paginate(page: page_val, per_page: 8) }
+
+  def category_name
+    category.name
+  end
+
+  def image_attach?
+    image.attached?
+  end
+
+  def big_image
+    image.variant(resize: '200x200')
+  end
+
+  def medium_image
+    image.variant(resize: '100x100')
+  end
+
+  def like_size
+    like_products.size
+  end
+
+  def like_user
+    prod.like_products.where(user_id: current_user.id)
   end
 end
