@@ -13,9 +13,6 @@
  *= require_tree .
  *= require_self
  */
-@import "tailwindcss/preflight";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 

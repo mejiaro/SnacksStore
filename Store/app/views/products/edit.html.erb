@@ -1,0 +1,37 @@
+<% if flash[:alert] %>
+  <div class="alert alert-<%= flash[:alert_type]%>" role="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <%=flash[:alert]%>
+  </div>
+<% end %>
+<%= form_for product do |f| %>
+<div style="width:50%; margin:0 auto; transform: translateY(10%);" class="thumbnail">
+  <h1 style="color: blue;">
+    Edit Product
+  </h1>
+  <div class="caption">
+    <h4 class="group inner list-group-item-text"><strong>SKU:</strong>
+      <%= product.sku %></h4>
+    <div class="row">
+      <div class="col-xs-12 col-md-3">
+      </div>
+      <div class="col-xs-12 col-md-9">
+        <p class=""><strong>Product Name:</strong> <%= f.text_field :product_name, placeholder: 'Product Name',:required => true %></p>
+        <p class=""><strong>Price:</strong> <%= f.number_field :price, :class => 'text_field' , :step => 0.01, min:0.1, value: product.price%></p>
+        <p class=""><strong>Product quantity:</strong> <%= f.number_field :quantity, :class => 'text_field' , min:0, value: product.quantity%></p>
+        <p class=""><strong>Product Category:</strong> <%= f.collection_select :category_id, category, :id, :name, :prompt => true, :selected => product.category_id || 2 %></p>
+        <%if product.image.attached?%>
+          <p class=""><strong>Image:</strong><%=image_tag product.image.variant(resize: "100x100") %></p>
+        <%end%>
+        <p class=""><strong>Change Image:</strong> <%= f.file_field :image%></p>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        </div>
+      <div class="col-xs-12 col-md-4">
+        <div class="actions">
+          <%= f.submit "Submit", class: "btn btn-success btn-block"%>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

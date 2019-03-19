@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  status: MyString
+  name: chocolates
+  status: A
 
 two:
-  name: MyString
-  status: MyString
+  name: chips
+  status: A

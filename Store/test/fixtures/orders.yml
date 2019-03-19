@@ -2,10 +2,8 @@
 
 one:
   user: one
-  date: 2019-03-07 08:55:04
-  status: MyString
+  status: N
 
 two:
-  user: two
-  date: 2019-03-07 08:55:04
-  status: MyString
+  user: one
+  status: N
