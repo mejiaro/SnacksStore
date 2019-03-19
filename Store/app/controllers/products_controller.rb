@@ -79,10 +79,6 @@ class ProductsController < ApplicationController
     @category = Category.all.order('name ASC')
   end
 
-  def search_params
-    params.fetch(:product_name, {}).permit(:category_id, :term, :page, :sort)
-  end
-
   def post_params
     params.require(:product).permit(
       :quantity, :product_name, :price, :category_id, :image, :sku, :status
