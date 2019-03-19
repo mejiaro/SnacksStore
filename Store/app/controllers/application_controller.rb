@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
 
   def admin_only
     if user_signed_in?
-      redirect_to root_path, alert: 'Access denied.' unless current_user.admin?
+      redirect_tor(root_path, flash: { alert: 'Access denied', alert_type: 'danger' }) unless current_user.admin?
     else
-      redirect_to root_path, alert: 'Access denied.'
+      redirect_to(root_path, flash: { alert: 'Access denied', alert_type: 'danger' })
     end
   end
 

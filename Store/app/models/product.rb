@@ -11,11 +11,15 @@ class Product < ApplicationRecord
   # validations
   validates :sku, :product_name, presence: true
   validates :sku, uniqueness: true
-  validates :quantity, numericality: { greater_than_or_equal_to: 0 }, on: :create
+  validates :quantity, numericality: {
+    greater_than_or_equal_to: 0
+  }, on: :create
 
   # scopes
   scope :sort_scope, ->(sort_val) { order(sort_val) }
-  scope :term_scope, ->(term_val) { where('product_name LIKE ?', "%#{term_val}%") }
+  scope :term_scope, lambda { |term_val|
+                       where('product_name LIKE ?', "%#{term_val}%")
+                     }
   scope :category_scope, ->(category_val) { where category_id: category_val }
   scope :page_scope, ->(page_val) { paginate(page: page_val, per_page: 8) }
 
@@ -39,7 +43,15 @@ class Product < ApplicationRecord
     like_products.size
   end
 
-  def like_user
-    prod.like_products.where(user_id: current_user.id)
+  def like_user(prod, id)
+    prod.like_products.where(user_id: id)
+  end
+
+  def price_log(product, old_price, id)
+    @log = Log.new(user_id: id,
+                   description: 'The price of the product has change',
+                   product_id: product.id, old_price: old_price,
+                   new_price: product.price)
+    @log.save
   end
 end

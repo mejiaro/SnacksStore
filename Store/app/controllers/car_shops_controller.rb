@@ -2,7 +2,7 @@ class CarShopsController < ApplicationController
   before_action :user_id
   def index
     if user_signed_in?
-      if current_user.role.rol_name != 'Admin'
+      if !current_user.admin?
         seed_cart
         @product = CarShop.all.where(user_id: current_user.id)
         @total = 0

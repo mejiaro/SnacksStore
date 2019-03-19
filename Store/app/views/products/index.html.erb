@@ -48,7 +48,7 @@
           <span style="text-align:right;">
             <% if user_signed_in? %>
               <% if !current_user.admin? %>
-                <% if prod.like_products.where(user_id: current_user.id).empty?%>
+                <% if prod.like_user(prod,current_user.id).empty?%>
                   <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_products_path(:id => prod), method: :post %>
                 <% else %>
                   <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_product_path(:id => prod), method: :delete %>
