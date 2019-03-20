@@ -17,6 +17,7 @@ class ProductsController < ApplicationController
 
   def show
     @shopping_cart = ShoppingCart.new
+    @comment = @product.comments.new
   end
 
   def new; end

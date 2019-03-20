@@ -12,4 +12,5 @@ class User < ApplicationRecord
   has_many :shopping_cart
   has_many :log
   has_many :order
+  has_many :comments, as: :commentable
 end

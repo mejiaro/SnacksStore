@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
+  get 'comments/index'
+  get 'comments/show'
+  get 'comments/create'
   devise_for :users
   root 'products#index'
-  resources :products
+  resources :products do
+    resources :comments
+  end
   resources :shopping_carts
   resources :orders
   resources :logs

@@ -13,11 +13,10 @@ require 'securerandom'
 #            password: '123456',
 #            password_confirmation: '123456',
 #            role_id: 1)
-# User.create(username: 'Applaudo',
-#            email: 'client@applaudo.com',
-#            password: '123456',
-#            password_confirmation: '123456',
-#            role_id: 2)
+User.create(username: 'Applaudo',
+            email: 'client@applaudo.com',
+            password: '123456',
+            password_confirmation: '123456')
 CreateAdminService.new.call
 10.times do
   Category.create([{

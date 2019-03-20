@@ -7,6 +7,7 @@ class Product < ApplicationRecord
   has_many :orders, through: :order_details
   has_many :like_products
   has_one_attached :image
+  has_many :comments, as: :commentable
 
   # validations
   validates :sku, :product_name, presence: true
