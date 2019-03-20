@@ -14,6 +14,6 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference('Order.count') do
       post orders_path
     end
-    assert_redirected_to car_shops_path
+    assert_redirected_to shopping_carts_path
   end
 end

@@ -62,7 +62,7 @@ class ShoppingCartsController < ApplicationController
 
   def seed_cart
     if session[:current_user_id]
-      @product_session = CarShop.all.where(user_id: session[:current_user_id])
+      @product_session = ShoppingCart.all.where(user_id: session[:current_user_id])
       if @product_session
         @product_session.each do |item|
           item.user_id = current_user.id

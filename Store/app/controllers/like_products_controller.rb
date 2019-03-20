@@ -21,11 +21,11 @@ class LikeProductsController < ApplicationController
     if @delete.destroy
       redirect_back(fallback_location:
          root_path, flash: { alert: "Like deleted successfully to product
-           #{prd.product_name}", alert_type: 'success' })
+           #{@prd.product_name}", alert_type: 'success' })
     else
       redirect_back(fallback_location:
          root_path, flash: { alert: "Like was not deleted to product
-           #{prd.product_name}", alert_type: 'error' })
+           #{@prd.product_name}", alert_type: 'error' })
     end
   end
 

@@ -11,8 +11,8 @@ class ShoppingCart < ApplicationRecord
       prd.quantity += quantity.to_i
     end
     prd.save
-    if prd.quantity.to_i <= 3 && !@prd.like_products.empty?
-      SendNotificationsJob.perform_later(@prd)
+    if prd.quantity.to_i <= 3 && !prd.like_products.empty?
+      SendNotificationsJob.perform_later(prd)
     end
   end
 

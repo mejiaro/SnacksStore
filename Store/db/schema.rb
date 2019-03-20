@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
-  create_table "shopping_carts", force: :cascade do |t|
+  create_table "shopping_cart", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "product_id"
     t.integer "quantity"
@@ -132,5 +132,5 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
   add_foreign_key "order_details", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "categories"
-  add_foreign_key "shopping_carts", "products"
+  add_foreign_key "shopping_cart", "products"
 end

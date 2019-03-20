@@ -62,14 +62,15 @@ Rails.application.configure do
   # SMTP settings
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :user_name => '15b215ed908899',
-    :password => '267e9c8151b623',
-    :address => 'smtp.mailtrap.io',
-    :domain => 'smtp.mailtrap.io',
-    :port => '2525',
-    :authentication => :cram_md5
+    user_name: ENV['MAIL_USER'],
+    password: ENV['MAIL_PASSWORD'],
+    address: 'smtp.sendgrid.net',
+    domain: 'localhost:3000',
+    port: '587',
+    authentication: 'plain',
+    enable_starttls_auto: true
   }
 
-config.action_controller.asset_host = 'http://localhost:3000'
-config.action_mailer.asset_host = config.action_controller.asset_host
+  config.action_controller.asset_host = 'http://localhost:3000'
+  config.action_mailer.asset_host = config.action_controller.asset_host
 end
