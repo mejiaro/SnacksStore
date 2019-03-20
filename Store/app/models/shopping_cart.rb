@@ -1,4 +1,4 @@
-class CarShop < ApplicationRecord
+class ShoppingCart < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :product
 
@@ -17,8 +17,16 @@ class CarShop < ApplicationRecord
   end
 
   def self.cart_list(user_id, product_id, quantity)
-    list = CarShop.find_by(user_id: user_id, product_id: product_id)
+    list = ShoppingCart.find_by(user_id: user_id, product_id: product_id)
     list.quantity += quantity.to_i if list
     list
+  end
+
+  def category_name
+    product.category.name
+  end
+
+  def product_name
+    product.product_name
   end
 end

@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @product = CarShop.all.where(user_id: current_user.id)
+    @product = ShoppingCart.all.where(user_id: current_user.id)
     @order = Order.new(user: usr, status: 'N')
     @order.save
     @last = Order.last

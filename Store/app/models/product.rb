@@ -3,7 +3,7 @@ class Product < ApplicationRecord
   belongs_to :category
   has_many :order_details
   has_many :log
-  has_many :car_shop
+  has_many :shopping_cart
   has_many :orders, through: :order_details
   has_many :like_products
   has_one_attached :image

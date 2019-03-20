@@ -36,18 +36,6 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "car_shops", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "product_id"
-    t.integer "quantity"
-    t.decimal "price"
-    t.string "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_car_shops_on_product_id"
-    t.index ["user_id"], name: "index_car_shops_on_user_id"
-  end
-
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "status"
@@ -109,10 +97,16 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string "rol_name"
+  create_table "shopping_carts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "product_id"
+    t.integer "quantity"
+    t.decimal "price"
+    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_shopping_cart_on_product_id"
+    t.index ["user_id"], name: "index_shopping_cart_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -130,7 +124,6 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "car_shops", "products"
   add_foreign_key "like_products", "products"
   add_foreign_key "like_products", "users"
   add_foreign_key "logs", "products"
@@ -139,4 +132,5 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
   add_foreign_key "order_details", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "categories"
+  add_foreign_key "shopping_carts", "products"
 end

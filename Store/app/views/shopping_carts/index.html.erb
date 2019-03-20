@@ -25,8 +25,8 @@
               <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
               <div class="col-sm-10">
                 <h4 class="nomargin"><%= prod.product.sku%></h4>
-                <p><%= prod.product.product_name%></p>
-                <p><%= prod.product.category.name%></p>
+                <p><%= prod.product_name%></p>
+                <p><%= prod.category_name%></p>
               </div>
             </div>
           </td>
@@ -36,7 +36,7 @@
           </td>
           <td data-th="Subtotal" class="text-center"><%=number_to_currency (prod.price.to_f * prod.quantity)%></td>
           <td class="actions" data-th="">
-            <td><%= link_to '<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>'.html_safe, car_shop_path(:id => prod.product.id),data: { confirm: "Are you sure?" }, method: :delete%>
+            <td><%= link_to '<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>'.html_safe, shopping_cart_path(:id => prod.product.id),data: { confirm: "Are you sure?" }, method: :delete%>
               <br/>
             </td>
           </tr>
