@@ -4,23 +4,21 @@ class CarShop < ApplicationRecord
 
   validates :quantity, numericality: { greater_than_or_equal_to: 1 }, on: :create
 
-  def update_quantity(quantity, id, type)
-    prd = Product.find(id)
+  def self.update_quantity(quantity, prd, type)
     if type
-      prd.quantity -= quantity
+      prd.quantity -= quantity.to_i
     else
-      prd.quantity += quantity
+      prd.quantity += quantity.to_i
     end
     prd.save
+    if prd.quantity.to_i <= 3 && !@prd.like_products.empty?
+      SendNotificationsJob.perform_later(@prd)
+    end
   end
 
-  def cart_list(user_id, product_id, quantity)
+  def self.cart_list(user_id, product_id, quantity)
     list = CarShop.find_by(user_id: user_id, product_id: product_id)
-    if cart_list
-      list.quantity += quantity
-    else
-      list = CarShop.new(car_params)
-    end
+    list.quantity += quantity.to_i if list
     list
   end
 end

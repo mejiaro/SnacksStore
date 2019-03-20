@@ -47,7 +47,7 @@ class Product < ApplicationRecord
     prod.like_products.where(user_id: id)
   end
 
-  def price_log(product, old_price, id)
+  def self.price_log(product, old_price, id)
     @log = Log.new(user_id: id,
                    description: 'The price of the product has change',
                    product_id: product.id, old_price: old_price,

@@ -35,7 +35,7 @@ class ProductsController < ApplicationController
     @product.assign_attributes(update_params)
     if @product.save
       if old_price != params[:product][:price]
-        price_log(@product, old_price, current_user.id)
+        Product.price_log(@product, old_price, current_user.id)
       end
       success(products_path, 'Product updated successfully.')
     else
