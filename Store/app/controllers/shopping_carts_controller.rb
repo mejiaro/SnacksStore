@@ -1,19 +1,17 @@
 class ShoppingCartsController < ApplicationController
   before_action :user_id
-  before_action :product, only: %i[create destroy]
+  before_action :prd, only: %i[create destroy]
+  before_action :prod, only: :index
+  helper_method :prod
   def index
     @total = 0
     if user_signed_in?
       if !current_user.admin?
         seed_cart
-        @product = ShoppingCart.all.where(user_id: current_user.id)
       else
         error(products_path, 'You can\'t buy')
       end
-    else
-      @product = ShoppingCart.all.where(user_id: session[:current_user_id])
     end
-    @product.each { |val| @total += (val.price * val.quantity) } if @product
   end
 
   def new
@@ -75,11 +73,20 @@ class ShoppingCartsController < ApplicationController
     end
   end
 
-  def product
+  def prd
     @prd = if action_name == 'create'
              Product.find(params[:shopping_cart][:product_id])
            else
              Product.find(params[:id])
            end
+  end
+
+  def prod
+    @prod=
+      if user_signed_in?
+        ShoppingCart.all.where(user_id: current_user.id).includes(:product) unless current_user.admin?
+      else
+        ShoppingCart.all.where(user_id: session[:current_user_id]).includes(product: :category)
+      end
   end
 end

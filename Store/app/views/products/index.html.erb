@@ -35,62 +35,7 @@
 </div>
 </div>
 <div id="products" class="row list-group">
-<%  product.each do |prod| %>
-  <div class="item  col-xs-4 col-lg-4">
-    <div class="thumbnail">
-      <%if prod.image_attach?%>
-        <%= image_tag prod.medium_image, :class => 'group list-group-image' %>
-        <%else%>
-        <%= image_tag("null_image.png", :alt => "not image", :class => 'group list-group-image', :style => 'width: 100px; height: 100px;') %>
-      <%end%>
-      <div class="caption">
-        <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
-          <span style="text-align:right;">
-            <% if user_signed_in? %>
-              <% if !current_user.admin? %>
-                <% if prod.like_user(prod,current_user.id).empty?%>
-                  <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_products_path(:id => prod), method: :post %>
-                <% else %>
-                  <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_product_path(:id => prod), method: :delete %>
-                <% end %>
-              <% end %>
-            <%end%>
-          </span>
-        </h4>
-        <p class="group inner list-group-item-text">Category:
-          <%= prod.category_name %></p>
-        <div class="row">
-          <div class="col-xs-12 col-md-6">
-            <p class="lead"><%= number_to_currency prod.price %></p>
-          </div>
-
-          <div class="col-xs-12 col-md-6">
-            <p class="lead"><%= prod.like_size %>
-              likes</p>
-          </div>
-          <% if user_signed_in? %>
-            <% if current_user.admin?%>
-              <div class="col-xs-12 col-md-6">
-                <%= link_to '<button class="btn btn-success btn-block" type="button">Edit</button>'.html_safe, edit_product_url(:id => prod.id ) %>
-              </div>
-              <div class="col-xs-12 col-md-6">
-                <%= link_to '<button class="btn btn-danger btn-block" type="button">Delete</button>'.html_safe, product_path(:id => prod.id),data: { confirm: "Are you sure?" }, method: :delete%>
-              </div>
-            <%else%>
-              <div class="col-xs-12 col-md-6">
-                <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
-              </div>
-            <%end%>
-          <%else%>
-            <div class="col-xs-12 col-md-6">
-              <a href="products/<%= prod.id %> " class="btn btn-success btn-block">Buy</a>
-            </div>
-          <%end%>
-        </div>
-      </div>
-    </div>
-  </div>
-<% end %>
+<%= render "products_list"%>
 </div>
 </div>
 <div class="apple_pagination">

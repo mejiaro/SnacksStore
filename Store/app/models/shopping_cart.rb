@@ -29,4 +29,8 @@ class ShoppingCart < ApplicationRecord
   def product_name
     product.product_name
   end
+
+  def prod_sku
+    product.sku
+  end
 end

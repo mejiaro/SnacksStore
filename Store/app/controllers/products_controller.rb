@@ -7,6 +7,7 @@ class ProductsController < ApplicationController
   before_action :values, only: :index
   def index
     @product = @product.category_scope(@category) if @category
+    @product = @product.sort_scope('product_name ASC') unless @sort
     @product = @product.sort_scope(@sort) if @sort
     @product = @product.term_scope(@term) if @term
     @product = @product.page_scope(@page).includes(
