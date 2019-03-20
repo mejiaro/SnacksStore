@@ -1,21 +1,18 @@
 class CarShopsController < ApplicationController
   before_action :user_id
   def index
+    @total = 0
     if user_signed_in?
       if !current_user.admin?
         seed_cart
         @product = CarShop.all.where(user_id: current_user.id)
-        @total = 0
-        @product.each { |val| @total += (val.price * val.quantity) }
       else
         redirect_to(products_path) && return
       end
     else
-      usr = session[:current_user_id]
-      @product = CarShop.all.where(user_id: usr)
-      @total = 0
-      @product.each { |val| @total += (val.price * val.quantity) }
+      @product = CarShop.all.where(user_id: session[:current_user_id])
     end
+    @product.each { |val| @total += (val.price * val.quantity) } if @product
   end
 
   def new
@@ -24,42 +21,34 @@ class CarShopsController < ApplicationController
 
   def destroy
     @car_delete = CarShop.find_by(user_id: @user_id, product_id: params[:id])
-    @prd = Product.find(params[:id])
-    @prd.quantity += @car_delete.quantity.to_i
     if @car_delete.destroy
-      @prd.save
-      redirect_to(car_shops_path, flash: { alert: 'Product deleted successfully.', alert_type: 'success' }) && return
+      update_quantity(@car_delete.quantity, params[:id], false)
+      success(car_shops_path, 'Product deleted successfully.')
     else
-      redirect_to(car_shops_path, flash: { alert: 'Product was not deleted.', alert_type: 'danger' }) && return
+      error(car_shops_path, 'Product was not deleted.')
     end
   end
 
   def create
-    prd = Product.find(params[:car_shop][:product_id])
-    @car_list = CarShop.find_by(user_id: @user_id, product: prd)
-    if @car_list
-      @car_list.quantity += params[:car_shop][:quantity].to_i
-    else
-      @car_list = CarShop.new(car_params)
-    end
+    prd = params[:car_shop][:product_id]
+    @cart_list = cart_list(@user_id, prd, params[:car_shop][:quantity])
     if @car_list.save
-      prd.quantity -= params[:car_shop][:quantity].to_i
-      prd.save
+      update_quantity(params[:car_shop][:quantity], prd, true)
       if prd.quantity <= 3 && !prd.like_products.empty?
         SendNotificationsJob.perform_later(prd)
       end
-      redirect_to(car_shops_path,
-                  flash: { alert: 'Product added successfully.',
-                           alert_type: 'success' }) && return
+      success(car_shops_path, 'Product added successfully.')
     else
-      redirect_to(car_shops_path, flash: { alert: 'Product was not added.', alert_type: 'danger' }) && return
+      error(car_shops_path, 'Product was not added.')
     end
   end
 
   private
 
   def car_params
-    params.require(:car_shop).permit(:product_id, :quantity, :price).merge(user_id: @user_id)
+    params.require(:car_shop).permit(:product_id, :quantity, :price).merge(
+      user_id: @user_id
+    )
   end
 
   def user_id
@@ -67,16 +56,16 @@ class CarShopsController < ApplicationController
                  current_user.id
                else
                  unless session[:current_user_id]
-                   session[:current_user_id] = SecureRandom.random_number(999_999)
+                   session[:current_user_id] =
+                     SecureRandom.random_number(999_999)
                  end
                  session[:current_user_id]
                end
   end
 
   def seed_cart
-    usr = session[:current_user_id]
-    if usr
-      @product_session = CarShop.all.where(user_id: usr)
+    if session[:current_user_id]
+      @product_session = CarShop.all.where(user_id: session[:current_user_id])
       if @product_session
         @product_session.each do |item|
           item.user_id = current_user.id

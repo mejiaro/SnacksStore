@@ -1,23 +1,31 @@
 class LikeProductsController < ApplicationController
+  before_action :user_only, only: %i[create destroy]
+  before_action :product_name, only: %i[create destroy]
   before_action :like, only: %i[new create destroy]
   def new; end
 
   def create
-    prd = Product.find(params[:id])
     if @like.save
-      redirect_back(fallback_location: root_path, flash: { alert: "Like given successfully to product #{prd.product_name}", alert_type: 'success' })
+      redirect_back(fallback_location:
+        root_path, flash: { alert: "Like given successfully to product
+          #{@prd.product_name}", alert_type: 'success' })
     else
-      redirect_back(fallback_location: root_path, flash: { alert: "Like was not given to product  #{prd.product_name}", alert_type: 'error' })
+      redirect_back(fallback_location:
+        root_path, flash: { alert: "Like was not given to product
+          #{@prd.product_name}", alert_type: 'error' })
     end
   end
 
   def destroy
-    prd = Product.find(params[:id])
     @delete = LikeProduct.destroy(@like.id)
     if @delete.destroy
-      redirect_back(fallback_location: root_path, flash: { alert: "Like deleted successfully to product  #{prd.product_name}", alert_type: 'success' })
+      redirect_back(fallback_location:
+         root_path, flash: { alert: "Like deleted successfully to product
+           #{prd.product_name}", alert_type: 'success' })
     else
-      redirect_back(fallback_location: root_path, flash: { alert: "Like was not deleted to product  #{prd.product_name}", alert_type: 'error' })
+      redirect_back(fallback_location:
+         root_path, flash: { alert: "Like was not deleted to product
+           #{prd.product_name}", alert_type: 'error' })
     end
   end
 
@@ -29,8 +37,12 @@ class LikeProductsController < ApplicationController
         LikeProduct.new
       elsif action_name == 'create'
         LikeProduct.new(user_id: current_user.id, product_id: params[:id])
-      elsif action_name == 'destroy'
+      else
         LikeProduct.find_by(user_id: current_user.id, product_id: params[:id])
       end
+  end
+
+  def product_name
+    @prd = Product.find(params[:id])
   end
 end

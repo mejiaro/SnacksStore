@@ -22,13 +22,9 @@ class ProductsController < ApplicationController
 
   def create
     if @product.save
-      redirect_to(products_path,
-                  flash: { alert: 'Product created successfully.',
-                           alert_type: 'success' }) && return
+      success(products_path, 'Product created successfully.')
     else
-      redirect_to(new_product_url,
-                  flash: { alert: 'Product was not created.',
-                           alert_type: 'danger' }) && return
+      error(new_product_url, 'Product was not created.')
     end
   end
 
@@ -41,7 +37,7 @@ class ProductsController < ApplicationController
       if old_price != params[:product][:price]
         price_log(@product, old_price, current_user.id)
       end
-      redirect_to(products_path) && return
+      success(products_path, 'Product updated successfully.')
     else
       render 'edit'
     end
@@ -50,13 +46,9 @@ class ProductsController < ApplicationController
   def destroy
     @product.status = 'D'
     if @product.save
-      redirect_to(products_path,
-                  flash: { alert: 'Product deleted successfully.',
-                           alert_type: 'success' }) && return
+      success(products_path, 'Product deleted successfully.')
     else
-      redirect_to(products_path,
-                  flash: { alert: 'Product was not deleted.',
-                           alert_type: 'danger' }) && return
+      error(products_path, 'Product was not deleted.')
     end
   end
 
