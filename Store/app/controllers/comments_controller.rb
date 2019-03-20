@@ -1,21 +1,23 @@
 class CommentsController < ApplicationController
   before_action :load_commentable
+  before_action :user_only, only: %i[create]
   def index; end
 
   def show; end
 
   def create
-    # puts @commentable.class
     @comment =
-      if @commentable.class.is_a?(Product)
+      if @commentable.class == Product
         @commentable.comments.new(allowed_product_params)
       else
         @commentable.comments.new(allowed_user_params)
       end
     if @comment.save
-      redirect_to [@commentable, :comments], notice: 'Comment created'
+      redirect_back(fallback_location:
+        root_path, flash: { alert: 'Comment create', alert_type: 'success' })
     else
-      render :new
+      redirect_back(fallback_location:
+        root_path, flash: { alert: 'Comment not create', alert_type: 'danger' })
     end
   end
 
@@ -27,14 +29,12 @@ class CommentsController < ApplicationController
   end
 
   def allowed_product_params
-    puts params
     params.require(:comment).permit(:review).merge(
       user_id: current_user.id, status: 'A'
     )
   end
 
   def allowed_user_params
-    puts params
     params.require(:comment).permit(:review).merge(
       user_id: current_user.id, status: 'D'
     )

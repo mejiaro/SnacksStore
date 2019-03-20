@@ -5,6 +5,8 @@ class ProductsController < ApplicationController
   helper_method :product, :category
   before_action :admin_only, only: %i[new create edit update destroy]
   before_action :values, only: :index
+  before_action :comments, only: :show
+  helper_method :comments
   def index
     @product = @product.category_scope(@category) if @category
     @product = @product.sort_scope('product_name ASC') unless @sort
@@ -97,5 +99,9 @@ class ProductsController < ApplicationController
     @sort = params[:sort]
     @term = params[:term]
     @page = params[:page]
+  end
+
+  def comments
+    @comments = @product.comments.where(status: 'A')
   end
 end
