@@ -82,11 +82,15 @@ class ShoppingCartsController < ApplicationController
   end
 
   def prod
-    @prod=
+    @prod =
       if user_signed_in?
-        ShoppingCart.all.where(user_id: current_user.id).includes(:product) unless current_user.admin?
+        unless current_user.admin?
+          ShoppingCart.all.where(user_id:
+            current_user.id).includes(product: :category)
+        end
       else
-        ShoppingCart.all.where(user_id: session[:current_user_id]).includes(product: :category)
+        ShoppingCart.all.where(user_id:
+          session[:current_user_id]).includes(product: :category)
       end
   end
 end
