@@ -1,5 +1,6 @@
 class CarShopsController < ApplicationController
   before_action :user_id
+  before_action :product, only: %i[create destroy]
   def index
     @total = 0
     if user_signed_in?
@@ -7,7 +8,7 @@ class CarShopsController < ApplicationController
         seed_cart
         @product = CarShop.all.where(user_id: current_user.id)
       else
-        redirect_to(products_path) && return
+        error(products_path, 'You can\'t buy')
       end
     else
       @product = CarShop.all.where(user_id: session[:current_user_id])
@@ -22,7 +23,7 @@ class CarShopsController < ApplicationController
   def destroy
     @car_delete = CarShop.find_by(user_id: @user_id, product_id: params[:id])
     if @car_delete.destroy
-      update_quantity(@car_delete.quantity, params[:id], false)
+      CarShop.update_quantity(@car_delete.quantity, @prd, false)
       success(car_shops_path, 'Product deleted successfully.')
     else
       error(car_shops_path, 'Product was not deleted.')
@@ -30,13 +31,11 @@ class CarShopsController < ApplicationController
   end
 
   def create
-    prd = params[:car_shop][:product_id]
-    @cart_list = cart_list(@user_id, prd, params[:car_shop][:quantity])
-    if @car_list.save
-      update_quantity(params[:car_shop][:quantity], prd, true)
-      if prd.quantity <= 3 && !prd.like_products.empty?
-        SendNotificationsJob.perform_later(prd)
-      end
+    @cart_list = CarShop.cart_list(@user_id, @prd.id,
+                                   params[:car_shop][:quantity])
+    @cart_list ||= CarShop.new(car_params)
+    if @cart_list.save
+      CarShop.update_quantity(params[:car_shop][:quantity], @prd, true)
       success(car_shops_path, 'Product added successfully.')
     else
       error(car_shops_path, 'Product was not added.')
@@ -74,5 +73,13 @@ class CarShopsController < ApplicationController
       end
       session[:current_user_id] == ''
     end
+  end
+
+  def product
+    @prd = if action_name == 'create'
+             Product.find(params[:car_shop][:product_id])
+           else
+             Product.find(params[:id])
+           end
   end
 end

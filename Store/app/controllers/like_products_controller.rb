@@ -1,6 +1,6 @@
 class LikeProductsController < ApplicationController
   before_action :user_only, only: %i[create destroy]
-  before_action :product_name, only: %i[create destroy]
+  before_action :product_name, only: %i[create destroy like]
   before_action :like, only: %i[new create destroy]
   def new; end
 
@@ -36,9 +36,9 @@ class LikeProductsController < ApplicationController
       if action_name == 'new'
         LikeProduct.new
       elsif action_name == 'create'
-        LikeProduct.new(user_id: current_user.id, product_id: params[:id])
+        LikeProduct.new(user_id: current_user.id, product_id: @prd.id)
       else
-        LikeProduct.find_by(user_id: current_user.id, product_id: params[:id])
+        LikeProduct.find_by(user_id: current_user.id, product_id: @prd.id)
       end
   end
 
