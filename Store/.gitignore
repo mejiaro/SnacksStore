@@ -36,3 +36,4 @@ yarn-debug.log*
 # Ignore for enviroment variables
 .env.development
 .env.development.local
+.env
