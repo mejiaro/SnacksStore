@@ -13,7 +13,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <strong><%= link_to comment.user.username, user_path(:id => "#{comment.user.id}") %></strong>
-            <span class="text-muted"><%=comment.created_at%></span>
+            <span class="text-muted"><%=comment.created_at.getlocal.strftime("%m/%d/%Y at %I:%M %p")%></span>
           </div>
           <div class="panel-body text-muted">
             <%=comment.review%>
