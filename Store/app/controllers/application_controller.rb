@@ -11,7 +11,9 @@ class ApplicationController < ActionController::Base
 
   def user_only
     if user_signed_in?
-      error(root_path, 'Please login') unless current_user.user?
+      error(root_path, 'Access denied') if current_user.admin?
+    else
+      error(root_path, 'Access denied')
     end
   end
 
@@ -25,6 +27,16 @@ class ApplicationController < ActionController::Base
     redirect_to(path,
                 flash: { alert: message.to_s,
                          alert_type: 'success' }) && return
+  end
+
+  def success_back(message)
+    redirect_back(fallback_location:
+      root_path, flash: { alert: message, alert_type: 'success' })
+  end
+
+  def error_back(message)
+    redirect_back(fallback_location:
+      root_path, flash: { alert: message, alert_type: 'danger' })
   end
 
   protected

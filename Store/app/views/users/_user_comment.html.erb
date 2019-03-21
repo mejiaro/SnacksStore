@@ -1,22 +1,24 @@
 <%unless comments.empty?%>
-  <br><br>
+<div class="col-md-2">
+
+</div>
+<div style="width:60%;" class="col-md-12">
+    <div class="col-sm-8">
   <h1 style="color: blue;">
     Comments:
   </h1>
-  <br>
-  <div style="width:90%;margin:0 auto; ">
+  </div>
     <% comments.each do |comment| %>
-      <div class="col-sm-4">
+    <div class="col-sm-6">
         <div class="panel panel-default">
           <div class="panel-heading">
             <strong><%= link_to comment.user.email, user_path(:id => "#{comment.user.id}") %></strong>
             <span class="text-muted"><%=comment.created_at%></span>
           </div>
-          <div class="panel-body">
+          <div class="panel-body text-muted">
             <%=comment.review%>
           </div>
         </div>
       </div>
     <%end%>
-
   <%end%>

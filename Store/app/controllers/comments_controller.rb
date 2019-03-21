@@ -8,11 +8,13 @@ class CommentsController < ApplicationController
 
   def create
     if @comment.save
-      redirect_back(fallback_location:
-        root_path, flash: { alert: 'Comment create', alert_type: 'success' })
+      if @commentable.class == Product
+        success_back('Comment created')
+      else
+        success_back('Comment created, please wait for approval')
+      end
     else
-      redirect_back(fallback_location:
-        root_path, flash: { alert: 'Comment not create', alert_type: 'danger' })
+      error_back('Comment not create')
     end
   end
 
