@@ -2,14 +2,12 @@
 
 one:
   review: MyText
-  commentable_id: 1
-  comentable_type: MyString
+  commentable: one (Product)
   user: one
   status: MyString
 
 two:
   review: MyText
-  commentable_id: 1
-  comentable_type: MyString
+  commentable: one (User)
   user: two
   status: MyString
