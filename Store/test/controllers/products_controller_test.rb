@@ -39,11 +39,13 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'product should get edit' do
+    sign_in users(:one)
     get edit_product_url(@product)
     assert_response :success
   end
 
   test 'products should get new' do
+    sign_in users(:one)
     get new_product_url
     assert_response :success
   end
@@ -68,7 +70,7 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   test 'products should redirect when not admin delete product' do
     sign_in users(:two)
     delete product_url(@product)
-    assert_redirected_to products_path
+    assert_redirected_to root_path
   end
 
   test 'products should redirect when not admin create product' do
@@ -77,6 +79,6 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
       post products_url, params: { product: @update }
     end
 
-    assert_redirected_to products_path
+    assert_redirected_to root_path
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_13_174556) do
+ActiveRecord::Schema.define(version: 2019_03_20_203854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,23 +36,24 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "car_shops", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "product_id"
-    t.integer "quantity"
-    t.decimal "price"
-    t.string "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_car_shops_on_product_id"
-    t.index ["user_id"], name: "index_car_shops_on_user_id"
-  end
-
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "review"
+    t.string "commentable_type"
+    t.bigint "commentable_id"
+    t.bigint "user_id"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "like_products", force: :cascade do |t|
@@ -109,10 +110,16 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.string "rol_name"
+  create_table "shopping_carts", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "product_id"
+    t.integer "quantity"
+    t.decimal "price"
+    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_shopping_carts_on_product_id"
+    t.index ["user_id"], name: "index_shopping_carts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -124,14 +131,13 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "username"
-    t.bigint "role_id"
+    t.integer "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "car_shops", "products"
+  add_foreign_key "comments", "users"
   add_foreign_key "like_products", "products"
   add_foreign_key "like_products", "users"
   add_foreign_key "logs", "products"
@@ -140,5 +146,5 @@ ActiveRecord::Schema.define(version: 2019_03_13_174556) do
   add_foreign_key "order_details", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "categories"
-  add_foreign_key "users", "roles"
+  add_foreign_key "shopping_carts", "products"
 end

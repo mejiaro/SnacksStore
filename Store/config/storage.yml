@@ -1,15 +1,14 @@
 test:
-  service: AzureStorage
-  storage_account_name: "applaudo"
-  storage_access_key: "y0y6kSmRCfSXDeOX49iOnM86SKcZlIWxKc7CggiDwkVEP0qnQRavRIqldGlcD9la275Sa+oleMBTJOayNHhW+Q=="
-  container: "snackstore"
+  service: <%= ENV['AZURE_SERVICE'] %>
+  storage_account_name: <%=  ENV['AZURE_ACCOUNT']%>
+  storage_access_key: <%= ENV['AZURE_KEY']%>
+  container: <%= ENV['AZURE_CONTAINER']%>
 
 local:
-  service: AzureStorage
-  storage_account_name: "applaudo"
-  storage_access_key: "y0y6kSmRCfSXDeOX49iOnM86SKcZlIWxKc7CggiDwkVEP0qnQRavRIqldGlcD9la275Sa+oleMBTJOayNHhW+Q=="
-  container: "snackstore"
-
+  service: <%= ENV['AZURE_SERVICE'] %>
+  storage_account_name: <%=  ENV['AZURE_ACCOUNT']%>
+  storage_access_key: <%= ENV['AZURE_KEY']%>
+  container: <%= ENV['AZURE_CONTAINER']%>
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3
@@ -32,10 +31,10 @@ local:
 #   storage_access_key: <%= Rails.application.credentials.dig(:azure_storage, :storage_access_key) %>
 #   container: your_container_name
 azure:
-  service: AzureStorage
-  storage_account_name: "applaudo"
-  storage_access_key: "y0y6kSmRCfSXDeOX49iOnM86SKcZlIWxKc7CggiDwkVEP0qnQRavRIqldGlcD9la275Sa+oleMBTJOayNHhW+Q=="
-  container: "snackstore"
+  service: <%= ENV['AZURE_SERVICE'] %>
+  storage_account_name: <%=  ENV['AZURE_ACCOUNT']%>
+  storage_access_key: <%= ENV['AZURE_KEY']%>
+  container: <%= ENV['AZURE_CONTAINER']%>
 # mirror:
 #   service: Mirror
 #   primary: local

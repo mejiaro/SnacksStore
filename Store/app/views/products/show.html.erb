@@ -1,14 +1,14 @@
-<%= form_for @car_shop, :url => car_shops_path(@car_shop), :method => :post do |f| %>
+<%= form_for @shopping_cart, :url => shopping_carts_path(@shopping_cart), :method => :post do |f| %>
 <div style="width:50%; margin:0 auto; transform: translateY(20%);" class="thumbnail">
-  <%if product.image.attached?%>
-    <%= image_tag product.image.variant(resize: "200x200"), :class => 'group list-group-image' %>
+  <%if product.image_attach?%>
+    <%= image_tag product.big_image, :class => 'group list-group-image' %>
   <%end%>
   <div class="caption">
     <h2 class="font-weight-bold group inner list-group-item-heading"><%= product.product_name %></h2>
     <h4 class="group inner list-group-item-text">SKU:
       <%= product.sku %></h4>
     <p class="group inner list-group-item-text">Category:
-      <%= product.category.name %></p>
+      <%= product.category_name %></p>
     <div class="row">
       <div class="col-xs-12 col-md-6">
         <p class="lead"><%= number_to_currency product.price %></p>
@@ -40,3 +40,12 @@
   </div>
 </div>
 <% end %>
+<br><br>
+<table align="center" border="0" width="90%">
+  <tr>
+    <td style="background-color: #F5F5F5;"><%= render "list_comments"%></td>
+  </tr>
+  <tr>
+    <td style="background-color: #F5F5F5;"><%= render "new_comment" %></td>
+  </tr>
+</table>

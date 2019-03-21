@@ -1,0 +1,37 @@
+<% if flash[:alert] %>
+  <div class="alert alert-<%= flash[:alert_type]%>" role="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <%=flash[:alert]%>
+  </div>
+<% end %>
+<br><br>
+<table align="center" border="0" width="90%">
+  <tr>
+    <td rowspan="3" style="background-color: #F5F5F5;"  width="20%" valign="top">
+      <div class="shop-tab-menu">
+        <h1 style="color: black;text-align: center;">Users</h1>
+        <br><br>
+        <div class="list-group">
+          <%  users.each do |user| %>
+            <%= link_to raw("<button class='list-group-item fas fa-user' type='button'>#{user.username}</button>"), user_path(:id => "#{user.id}")%>
+            <br>
+          <% end %>
+        </div>
+      </div>
+    </td>
+    <td style="background-color: #F5F5F5;">
+      <%= render "user_information"%>
+    </td>
+  </tr>
+  <tr>
+    <td style="background-color: #F5F5F5;">
+      <%= render "user_comment" %>
+    </td>
+  </tr>
+  <tr>
+    <td style="background-color: #F5F5F5;">
+        <%= render "new_comment"%>
+      </td>
+    </tr>
+
+  </table>

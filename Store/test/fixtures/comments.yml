@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  review: MyText
+  commentable: one (Product)
+  user: one
+  status: MyString
+
+two:
+  review: MyText
+  commentable: one (User)
+  user: two
+  status: MyString

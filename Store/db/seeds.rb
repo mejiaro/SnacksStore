@@ -6,18 +6,18 @@
 # movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 # Character.create(name: 'Luke', movie: movies.first)
 require 'securerandom'
-Role.create(rol_name: 'Admin')
-Role.create(rol_name: 'Buyer')
-User.create(username: 'Carlos',
-            email: 'cemg_neto@hotmail.com',
-            password: '123456',
-            password_confirmation: '123456',
-            role_id: 1)
+# Role.create(rol_name: 'Admin')
+# Role.create(rol_name: 'Buyer')
+# User.create(username: 'Carlos',
+#            email: 'cemg_neto@hotmail.com',
+#            password: '123456',
+#            password_confirmation: '123456',
+#            role_id: 1)
 User.create(username: 'Applaudo',
             email: 'client@applaudo.com',
             password: '123456',
-            password_confirmation: '123456',
-            role_id: 2)
+            password_confirmation: '123456')
+CreateAdminService.new.call
 10.times do
   Category.create([{
                     name: Faker::Commerce.unique.department(1),

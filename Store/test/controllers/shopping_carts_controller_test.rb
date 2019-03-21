@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CarShopsControllerTest < ActionDispatch::IntegrationTest
+class ShoppingCartsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   setup do
     @product = products(:one)
@@ -13,25 +13,25 @@ class CarShopsControllerTest < ActionDispatch::IntegrationTest
 
   test 'shopping cart index should be success' do
     sign_in users(:two)
-    get car_shops_path
+    get shopping_carts_path
     assert_response :success
   end
 
   test 'shopping should create product' do
     sign_in users(:two)
-    assert_difference('CarShop.count') do
-      post car_shops_path, params: { car_shop: @update }
+    assert_difference('ShoppingCart.count') do
+      post shopping_carts_path, params: { shopping_cart: @update }
     end
 
-    assert_redirected_to car_shops_path
+    assert_redirected_to shopping_carts_path
   end
 
   test 'should destroy line item of shopping cart' do
     sign_in users(:two)
-    assert_difference('CarShop.count', -1) do
-      delete car_shop_path(id: @product.id)
+    assert_difference('ShoppingCart.count', -1) do
+      delete shopping_cart_path(id: @product.id)
     end
 
-    assert_redirected_to car_shops_path
+    assert_redirected_to shopping_carts_path
   end
 end
