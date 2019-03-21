@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  get 'comments/index'
-  get 'comments/show'
-  get 'comments/create'
+  resources :comments
   devise_for :users
   root 'products#index'
   resources :products do

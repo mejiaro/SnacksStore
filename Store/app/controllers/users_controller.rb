@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :admin_only, except: :show
+  before_action :comments
+  helper_method :comments
+  # before_action :admin_only, except: :show
 
-  def index
-    @users = User.all
-  end
+  def index; end
 
   def show
     @user = User.find(params[:id])
@@ -24,15 +24,18 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy
-    user = User.find(params[:id])
-    user.destroy
-    redirect_to users_path, notice: 'User deleted.'
-  end
-
   private
 
   def secure_params
     params.require(:user).permit(:role)
+  end
+
+  def comments
+    @comments =
+      if action_name == 'index'
+        Comment.all.where("commentable_type='User'")
+      else
+        Comment.find(params[:id])
+      end
   end
 end

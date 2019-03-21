@@ -1,23 +1,39 @@
 class CommentsController < ApplicationController
   before_action :load_commentable
   before_action :user_only, only: %i[create]
+  before_action :comment
   def index; end
 
   def show; end
 
   def create
-    @comment =
-      if @commentable.class == Product
-        @commentable.comments.new(allowed_product_params)
-      else
-        @commentable.comments.new(allowed_user_params)
-      end
     if @comment.save
       redirect_back(fallback_location:
         root_path, flash: { alert: 'Comment create', alert_type: 'success' })
     else
       redirect_back(fallback_location:
         root_path, flash: { alert: 'Comment not create', alert_type: 'danger' })
+    end
+  end
+
+  def destroy
+    comment = Comment.find(params[:id])
+    comment.destroy
+    redirect_to users_path, notice: 'User deleted.'
+  end
+
+  def edit; end
+
+  def update
+    @comment.status = if @comment.status == 'D'
+                        'A'
+                      else
+                        'D'
+                      end
+    if @comment.save
+      success(users_path, 'Status changed')
+    else
+      error(users_path, 'Status wasn\'t changed')
     end
   end
 
@@ -38,5 +54,20 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:review).merge(
       user_id: current_user.id, status: 'D'
     )
+  end
+
+  def comment
+    @comment =
+      if action_name == 'create'
+        if @commentable.class == Product
+          @commentable.comments.new(allowed_product_params)
+        else
+          @commentable.comments.new(allowed_user_params)
+        end
+      elsif %w[update edit show destroy].include?(action_name)
+        Comment.find(params[:id])
+      else
+        Comment.where(status: 'A')
+      end
   end
 end
