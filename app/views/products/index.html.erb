@@ -26,7 +26,10 @@
 <% end %>
 <br>
 <br>
-<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 shop-tab-menu">
+<table align="center" border="0" width="100%">
+  <tr>
+    <td style="background-color: #F5F5F5;" width="16%" valign="top">
+<div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 shop-tab-menu">
 <div class="list-group">
   <%  category.each do |cat| %>
     <%= link_to raw("<button class='list-group-item' type='button'><h4><i class='fa fa-chevron-right' aria-hidden='true'></i>#{cat.name}</h4></button>"), products_path(request.query_parameters.merge(:category => "#{cat.id}")) %>
@@ -34,13 +37,17 @@
   <% end %>
 </div>
 </div>
+</td>
+<td style="background-color: #F5F5F5;" valign="top">
 <div id="products" class="row list-group">
 <%= render "products_list"%>
 </div>
-</div>
+</td>
+</tr>
+</table>
 <div class="apple_pagination">
 <div class="page_info">
 <%= page_entries_info product %>
 </div>
-<%= will_paginate product, :container => false %>
+<%= will_paginate product, :container => false%>
 </div>

@@ -19,7 +19,7 @@ class Product < ApplicationRecord
   # scopes
   scope :sort_scope, ->(sort_val) { order(sort_val) }
   scope :term_scope, lambda { |term_val|
-                       where('product_name LIKE ?', "%#{term_val}%")
+                       where('product_name ILIKE ?', "%#{term_val}%")
                      }
   scope :category_scope, ->(category_val) { where category_id: category_val }
   scope :page_scope, ->(page_val) { paginate(page: page_val, per_page: 8) }
