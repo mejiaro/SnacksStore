@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :user, :users, :comments
+  before_action :user, :exist, :users, :comments
   helper_method :user, :users, :comments
   # before_action :admin_only, except: :show
 
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       if action_name == 'index'
         Comment.all.where("commentable_type='User'")
       else
-        @user.comments.where(status: 'A')
+        @user.comments.where(status: 'A').includes(:user)
       end
   end
 
@@ -32,9 +32,13 @@ class UsersController < ApplicationController
   def user
     @user =
       if params[:id].present?
-        User.find(params[:id])
+        User.find_by(id: params[:id])
       else
         current_user
       end
+  end
+
+  def exist
+    error(user_path(id: current_user.id), 'User not available') unless @user
   end
 end

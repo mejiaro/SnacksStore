@@ -7,13 +7,13 @@
 <br><br>
 <table align="center" border="0" width="90%">
   <tr>
-    <td rowspan="2" style="background-color: #F5F5F5;"  width="20%" valign="top">
+    <td rowspan="3" style="background-color: #F5F5F5;"  width="20%" valign="top">
       <div class="shop-tab-menu">
-        <h1 style="color: black;">Users</h1>
+        <h1 style="color: black;text-align: center;">Users</h1>
         <br><br>
         <div class="list-group">
           <%  users.each do |user| %>
-            <%= link_to raw("<button class='list-group-item' type='button'><i class='fas fa-user' aria-hidden='true'> #{user.username}</i></button>"), user_path(:id => "#{user.id}")%>
+            <%= link_to raw("<button class='list-group-item fas fa-user' type='button'>#{user.username}</button>"), user_path(:id => "#{user.id}")%>
             <br>
           <% end %>
         </div>
@@ -26,7 +26,12 @@
   <tr>
     <td style="background-color: #F5F5F5;">
       <%= render "user_comment" %>
+    </td>
+  </tr>
+  <tr>
+    <td style="background-color: #F5F5F5;">
         <%= render "new_comment"%>
       </td>
     </tr>
+
   </table>

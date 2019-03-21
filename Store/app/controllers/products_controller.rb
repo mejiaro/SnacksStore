@@ -1,7 +1,7 @@
 require 'securerandom'
 class ProductsController < ApplicationController
   before_action :set_cache_headers
-  before_action :product, :category
+  before_action :product, :category, :exist
   helper_method :product, :category
   before_action :admin_only, only: %i[new create edit update destroy]
   before_action :values, only: :index
@@ -63,7 +63,7 @@ class ProductsController < ApplicationController
       if action_name == 'new'
         Product.new
       elsif %w[update edit show destroy].include?(action_name)
-        Product.find(params[:id])
+        Product.find_by(id: params[:id])
       elsif action_name == 'create'
         Product.new(post_params)
       else
@@ -103,5 +103,9 @@ class ProductsController < ApplicationController
 
   def comments
     @comments = @product.comments.where(status: 'A')
+  end
+
+  def exist
+    error(products_path, 'Product not available') unless @product
   end
 end
