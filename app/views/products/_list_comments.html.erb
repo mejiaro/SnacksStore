@@ -1,0 +1,21 @@
+<%unless comments.empty?%>
+  <h2 style="color: blue;">
+    Comments:
+  </h2>
+  <br>
+  <div style="width:90%;margin:0 auto; ">
+    <% comments.each do |comment| %>
+      <div class="col-sm-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong><%= link_to comment.user.username, user_path(:id => "#{comment.user.id}") %></strong>
+            <span class="text-muted"><%=comment.created_at.getlocal.strftime("%m/%d/%Y at %I:%M %p")%></span>
+          </div>
+          <div class="panel-body text-muted" >
+            <%=comment.review%>
+          </div>
+        </div>
+      </div>
+    <%end%>
+</div>
+  <%end%>

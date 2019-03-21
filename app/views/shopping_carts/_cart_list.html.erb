@@ -1,0 +1,45 @@
+<tbody>
+  <%  prod.each do |produ| %>
+    <tr>
+      <td data-th="Product">
+        <div class="row">
+          <div class="col-sm-2 hidden-xs"></div>
+          <div class="col-sm-10">
+            <h4 class="nomargin"><%= produ.prod_sku%></h4>
+            <p><%= produ.product_name%></p>
+            <p><%= produ.category_name%></p>
+          </div>
+        </div>
+      </td>
+      <td data-th="Price"><%= number_to_currency produ.price%></td>
+      <td data-th="Quantity" style="text-align: center;">
+        <p><%= produ.quantity %></p>
+      </td>
+      <td data-th="Subtotal" class="text-center"><%=number_to_currency (produ.price.to_f * produ.quantity)%></td>
+      <td class="actions" data-th="">
+        <td><%= link_to '<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>'.html_safe, shopping_cart_path(:id => produ.product_id),data: { confirm: "Are you sure?" }, method: :delete%>
+          <br/>
+        </td>
+      </tr>
+      <%@total += (produ.price * produ.quantity)%>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>
+        <a href="./products" class="btn btn-warning">
+          <i class="fa fa-angle-left"></i>
+          Continue Shopping</a>
+      </td>
+      <td colspan="2" class="hidden-xs"></td>
+      <td class="hidden-xs text-center">
+        <strong>Total
+          <%= number_to_currency @total%></strong>
+      </td>
+      <%if user_signed_in?%>
+      <td><%= link_to '<button class="btn btn-success btn-block" type="button">Checkout</button>'.html_safe, orders_path, method: :post%> </td>
+      <% else %>
+      <td><%= link_to '<button class="btn btn-success btn-block" type="button">Sign In</button>'.html_safe, new_user_session_path%> </td>
+      <% end %>
+    </tr>
+  </tfoot>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Shop</title>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-top navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Snacks Shop</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <%if user_signed_in?%>
+              <%if !current_user.admin? %>
+                <ul class="nav navbar-nav  navbar-right">
+                  <%= link_to " Shopping Cart", shopping_carts_path, style: "color: white;", class:"fas fa-shopping-cart" %>
+                </ul>
+              <%end%>
+            <%else%>
+              <ul class="nav navbar-nav  navbar-right">
+                <%= link_to " Shopping Cart", shopping_carts_path, style: "color: white;", class:"fas fa-shopping-cart" %>
+              </ul>
+            <%end%>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <% if user_signed_in? %>
+                    <li><%= link_to "Edit profile", edit_user_registration_path %></li>
+                    <li><%= link_to "Review user", user_path(id: current_user.id) %></li>
+                    <li role="separator" class="divider"></li>
+                    <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+                  <% else %>
+                    <li><%= link_to "Sign up", new_user_registration_path %></li>
+                    <li><%= link_to "Login", new_user_session_path %></li>
+                  <% end %>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav  navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Products
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "List", products_path %></li>
+                </ul>
+              </li>
+            </ul>
+            <%if user_signed_in?%>
+              <%if current_user.admin? %>
+                <ul class="nav navbar-nav  navbar-right">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin
+                      <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><%= link_to "Users reviews", users_path %></li>
+                      <li><%= link_to "New Product", new_product_url %></li>
+                    </ul>
+                  </li>
+                </ul>
+              <%end%>
+            <%end%>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div id="main-container" class="container">
+      <%= yield %>
+    </div>
+  </body>
+</html>

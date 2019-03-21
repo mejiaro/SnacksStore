@@ -1,0 +1,28 @@
+<tbody>
+  <%  comments.each do |comment| %>
+    <tr>
+      <td class="text-center">
+        <%= comment.review%></td>
+      <td class="text-center"><%= comment.user.username%></td>
+      <td class="text-center"><%= comment.comment_user(comment.commentable_id) %></td>
+      <td class="text-center"><%=comment.comment_status(comment.status)%></td>
+      <%if comment.status=='D'%>
+      <td><%= link_to '<button class="btn btn-primary btn-sm"><i class="fas fa-check-circle"></i></button>'.html_safe, comment_path(:id => comment.id),data: { confirm: "Are you sure?" }, method: :put%>
+      <%else%>
+      <td><%= link_to '<button class="btn btn-danger btn-sm"><i class="fas fa-minus-circle"></i></button>'.html_safe, comment_path(:id => comment.id),data: { confirm: "Are you sure?" }, method: :put%>
+      <%end%>
+      <%= link_to '<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>'.html_safe, comment_path(:id => comment.id),data: { confirm: "Are you sure?" }, method: :delete%></td>
+
+    </tr>
+  <% end %>
+</tbody>
+<tfoot>
+  <tr>
+    <td>
+      <a href="./products" class="btn btn-warning">
+        <i class="fa fa-angle-left"></i>
+        See Products</a>
+    </td>
+    <td colspan="4" class=""></td>
+  </tr>
+</tfoot>
