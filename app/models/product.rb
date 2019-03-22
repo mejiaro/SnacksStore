@@ -55,4 +55,8 @@ class Product < ApplicationRecord
                    new_price: product.price)
     @log.save
   end
+
+  def rating
+    comments.where("status='A' AND rating > 0 ").average(:rating)
+  end
 end
