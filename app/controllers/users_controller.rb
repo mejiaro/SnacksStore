@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   end
 
   def users
-    @users = User.where(role: 2)
+    @users = User.where(role: :user)
   end
 
   def user
