@@ -47,13 +47,13 @@ class CommentsController < ApplicationController
   end
 
   def allowed_product_params
-    params.require(:comment).permit(:review).merge(
+    params.require(:comment).permit(:review, :rating).merge(
       user_id: current_user.id, status: 'A'
     )
   end
 
   def allowed_user_params
-    params.require(:comment).permit(:review).merge(
+    params.require(:comment).permit(:review, :rating).merge(
       user_id: current_user.id, status: 'D'
     )
   end

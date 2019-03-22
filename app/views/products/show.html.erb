@@ -9,6 +9,7 @@
       <%= product.sku %></h4>
     <p class="group inner list-group-item-text">Category:
       <%= product.category_name %></p>
+    <p class="group inner list-group-item-text">Rating: <%= product.rating %>  <i class="fas fa-star" style="color:yellow;"></i></p>
     <div class="row">
       <div class="col-xs-12 col-md-6">
         <p class="lead"><%= number_to_currency product.price %></p>

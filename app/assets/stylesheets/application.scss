@@ -381,3 +381,6 @@ select option {
     border-bottom: none;
   }
 }
+.check-with-label:checked + .label-for-check {
+  color: yellow;
+}

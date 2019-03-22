@@ -19,6 +19,7 @@
         <p class=""><strong>Product Name:</strong> <%= f.text_field :product_name, placeholder: 'Product Name',:required => true %></p>
         <p class=""><strong>Price:</strong> <%= f.number_field :price, :class => 'text_field' , :step => 0.01, min:0.1, value: product.price%></p>
         <p class=""><strong>Product quantity:</strong> <%= f.number_field :quantity, :class => 'text_field' , min:0, value: product.quantity%></p>
+        <p><strong>Rating:</strong> <%= product.rating %> <i class="fas fa-star" style="color:yellow;"></i></p>
         <p class=""><strong>Product Category:</strong> <%= f.collection_select :category_id, category, :id, :name, :prompt => true, :selected => product.category_id || 2 %></p>
         <%if product.image.attached?%>
           <p class=""><strong>Image:</strong><%=image_tag product.image.variant(resize: "100x100") %></p>
