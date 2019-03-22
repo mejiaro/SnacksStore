@@ -13,7 +13,7 @@
         <br><br>
         <div class="list-group">
           <%  users.each do |user| %>
-            <%= link_to raw("<button class='list-group-item fas fa-user' type='button'>#{user.username}</button>"), user_path(:id => "#{user.id}")%>
+            <%= link_to raw("<button class='list-group-item fas fa-user' type='button'>  #{user.username}</button>"), user_path(:id => "#{user.id}")%>
             <br>
           <% end %>
         </div>
