@@ -1,6 +1,7 @@
 class Comment < ApplicationRecord
   belongs_to :user
-belongs_to :commentable, polymorphic: true    
+  belongs_to :commentable, polymorphic: true
+  validates :review, presence: true
   def comment_user(id)
     User.find(id).username
   end
