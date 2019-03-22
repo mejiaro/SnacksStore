@@ -13,4 +13,8 @@ class User < ApplicationRecord
   has_many :log
   has_many :order
   has_many :comments, as: :commentable
+
+  def rating
+    comments.where("status='A' AND rating > 0").average(:rating)
+  end
 end

@@ -1,15 +1,26 @@
 <%if user_signed_in? && !current_user.admin?%>
-<h2 style="color: blue;">
-  New Comment:
-</h2>
-<div class="col-sm-2"></div>
+  <h2 style="color: blue;">
+    New Comment:
+  </h2>
+  <div class="col-sm-2"></div>
   <div class="col-sm-5">
     <%= form_for @comment, :url => product_comments_url(@product), :method => :post do |form| %>
     <div class="field" style="width: 50%">
-      <%= form.text_area :review, :cols => 60, :rows => 4, style: "color: 	#000000;" , :required => true%>
+      <%= form.text_area :review, :cols => 60, :rows => 4, style: "color: #000000;" , :required => true%>
     </div>
+    <label style= "color: #000000;" >Rate me:</label>
+    <%= form.radio_button :rating, 1, :id=>"one", :style=>"display:none;", :checked => false, class: "check-with-label"  %>
+    <label style= "-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: yellow;" for="one" class="label-for-check fas fa-star"></label>
+    <%= form.radio_button :rating, 2, :id=>"two", :style=>"display:none;", :checked => false, class: "check-with-label"  %>
+    <label style= "-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: yellow;" for="two" class="label-for-check fas fa-star"></label>
+    <%= form.radio_button :rating, 3, :id=>"thre", :style=>"display:none;", :checked => false, class: "check-with-label"  %>
+    <label style= "-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: yellow;" for="thre" class="label-for-check fas fa-star"></label>
+    <%= form.radio_button :rating, 4, :id=>"four", :style=>"display:none;", :checked => false, class: "check-with-label"  %>
+    <label style= "-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: yellow;" for="four" class="label-for-check fas fa-star"></label>
+    <%= form.radio_button :rating, 5, :id=>"five", :style=>"display:none;", :checked => false, class: "check-with-label"  %>
+    <label style= "-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: yellow;" for="five" class="label-for-check fas fa-star"></label>
     <div class="actions">
-      <%= form.submit style: "color: 	#000000;"%>
+      <%= form.submit style: "color: #000000;"%>
     </div>
   <%end%>
 </div>
