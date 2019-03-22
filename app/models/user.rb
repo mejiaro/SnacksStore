@@ -1,9 +1,9 @@
 class User < ApplicationRecord
   enum role: %i[user admin]
-  after_initialize :set_default_role, if: :new_record?
+  after_initialize :set_default_role
 
   def set_default_role
-    self.role ||= :user
+    self.role ||= :user if new_record?
   end
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
