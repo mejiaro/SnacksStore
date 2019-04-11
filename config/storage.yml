@@ -1,14 +1,10 @@
 test:
-  service: <%= ENV['AZURE_SERVICE'] %>
-  storage_account_name: <%=  ENV['AZURE_ACCOUNT']%>
-  storage_access_key: <%= ENV['AZURE_KEY']%>
-  container: <%= ENV['AZURE_CONTAINER']%>
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
 
 local:
-  service: <%= ENV['AZURE_SERVICE'] %>
-  storage_account_name: <%=  ENV['AZURE_ACCOUNT']%>
-  storage_access_key: <%= ENV['AZURE_KEY']%>
-  container: <%= ENV['AZURE_CONTAINER']%>
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

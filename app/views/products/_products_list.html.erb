@@ -10,9 +10,14 @@
         <h4 class="group inner list-group-item-heading"><%= prod.product_name %>
           <span style="text-align:right;">
             <% if user_signed_in? %>
+              <!-- You're using this too much, maybe put it in a helper. -->
               <% if !current_user.admin? %>
                 <% if prod.like_user(prod,current_user.id).empty?%>
-                  <%= link_to '<button class="far fa-thumbs-up btn btn-primary" style="color:white;" type="button" ></button>'.html_safe, like_products_path(:id => prod), method: :post %>
+                  <!-- Don't use inline styles! -->
+                  <%= link_to like_products_path(:id => prod), method: :post do %>
+                    <i class="far fa-thumbs-up btn btn-primary"></i>
+                  <% end %> 
+                  <!-- This is the correct syntax to use. Much more clearer. -->
                 <% else %>
                   <%= link_to '<button class="far fa-thumbs-down btn btn-primary" style="color:red;" type="button" ></button>'.html_safe, like_product_path(:id => prod), method: :delete %>
                 <% end %>
@@ -32,6 +37,7 @@
               likes</p>
           </div>
           <% if user_signed_in? %>
+            <!-- I think you could've put this in a partial, since it is only relevant when the user is an admin -->
             <% if current_user.admin?%>
               <div class="col-xs-12 col-md-6">
                 <%= link_to '<button class="btn btn-success btn-block" type="button">Edit</button>'.html_safe, edit_product_url(:id => prod.id ) %>
